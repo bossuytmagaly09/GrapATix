@@ -10,7 +10,7 @@ Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van t
 - [x] **1.1 Core Database Modellen**
     - [x] Creëer `Category` model en migratie.
     - [x] Creëer `Article` (of `Event`) model met titel, inhoud, status en afbeelding.
-    - [ ] **Test:** Valideer met Pest dat je categorieën en artikelen kunt aanmaken en koppelen.
+    - [x] **Test:** Valideer met Pest dat je categorieën en artikelen kunt aanmaken en koppelen.
 - [ ] **1.2 Backend Dashboard (Livewire/Flux)**
     - [ ] Bouw CRUD voor Categorieën in het bestaande dashboard.
     - [ ] Bouw CRUD voor Artikelen (inclusief image upload en status management).

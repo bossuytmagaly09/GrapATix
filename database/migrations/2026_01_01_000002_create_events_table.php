@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
             $table->uuid('uuid')->unique();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('subdomain', 100)->nullable()->unique();
             $table->boolean('use_venue_capacity')->default(false);
