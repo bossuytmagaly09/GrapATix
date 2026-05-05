@@ -10,6 +10,7 @@
     <flux:card class="overflow-hidden">
         <flux:table>
             <flux:table.columns>
+                <flux:table.column>{{ __('Image') }}</flux:table.column>
                 <flux:table.column>{{ __('Title') }}</flux:table.column>
                 <flux:table.column>{{ __('Category') }}</flux:table.column>
                 <flux:table.column>{{ __('Date') }}</flux:table.column>
@@ -20,6 +21,15 @@
             <flux:table.rows>
                 @foreach ($events as $event)
                     <flux:table.row :key="$event->id">
+                        <flux:table.cell>
+                            @if($url = $event->getFirstMediaUrl('cover'))
+                                <img src="{{ $url }}" class="w-12 h-8 object-cover rounded shadow-sm border border-zinc-200 dark:border-zinc-700">
+                            @else
+                                <div class="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded border border-dashed border-zinc-300 dark:border-zinc-600 flex items-center justify-center">
+                                    <flux:icon icon="photo" class="size-4 text-zinc-400" />
+                                </div>
+                            @endif
+                        </flux:table.cell>
                         <flux:table.cell class="font-medium">{{ $event->title }}</flux:table.cell>
                         <flux:table.cell>
                             <flux:badge size="sm" inset="top bottom">{{ $event->category?->name ?? __('Uncategorized') }}</flux:badge>
@@ -66,7 +76,40 @@
 
                 <flux:input type="number" step="0.01" wire:model="price" :label="__('Price (€)')" icon="currency-euro" placeholder="0.00" />
 
-                <flux:textarea wire:model="description" :label="__('Description')" placeholder="{{ __('Describe your event...') }}" />
+                <!-- Image Upload -->
+                <div class="space-y-2">
+                    <flux:label>{{ __('Cover Image') }}</flux:label>
+                    <input type="file" wire:model="image" class="block w-full text-sm text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-zinc-100 file:text-zinc-700 hover:file:bg-zinc-200 dark:file:bg-zinc-700 dark:file:text-zinc-300" />
+                    
+                    @if ($image)
+                        <div class="mt-2 relative w-32 h-20 overflow-hidden rounded-lg border border-zinc-200">
+                            <img src="{{ $image->temporaryUrl() }}" class="object-cover w-full h-full">
+                        </div>
+                    @elseif ($editingEventId && ($existingEvent = \App\Models\Event::find($editingEventId)) && $existingEvent->hasMedia('cover'))
+                        <div class="mt-2 relative w-32 h-20 overflow-hidden rounded-lg border border-zinc-200">
+                            <img src="{{ $existingEvent->getFirstMediaUrl('cover') }}" class="object-cover w-full h-full">
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Rich Text Editor (Trix) -->
+                <div class="space-y-2" wire:ignore>
+                    <flux:label>{{ __('Description') }}</flux:label>
+                    <input id="description" type="hidden" name="description" value="{{ $description }}">
+                    <trix-editor 
+                        input="description" 
+                        class="block w-full p-2 border border-zinc-200 rounded-lg dark:border-zinc-700 dark:bg-zinc-800 trix-content"
+                        x-on:trix-change="$wire.description = $event.target.value"
+                    ></trix-editor>
+                </div>
+
+                <flux:separator />
+
+                <div class="space-y-4">
+                    <flux:heading size="sm">{{ __('SEO (Search Engine Optimization)') }}</flux:heading>
+                    <flux:input wire:model="seo_title" :label="__('SEO Title')" placeholder="{{ __('Meta title for Google...') }}" />
+                    <flux:textarea wire:model="seo_description" :label="__('SEO Description')" placeholder="{{ __('Meta description for Google...') }}" />
+                </div>
             </div>
 
             <div class="flex justify-end gap-2">

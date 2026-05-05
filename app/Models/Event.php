@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Event extends Model
+class Event extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover')->singleFile();
+    }
 
     protected $fillable = [
         'organization_id',
@@ -20,6 +27,8 @@ class Event extends Model
         'title',
         'slug',
         'description',
+        'seo_title',
+        'seo_description',
         'subdomain',
         'use_venue_capacity',
         'max_capacity',

@@ -15,10 +15,10 @@ Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van t
     - [x] Bouw CRUD voor Categorieën in het bestaande dashboard.
     - [x] Bouw CRUD voor Artikelen (inclusief image upload en status management).
     - [x] **Test:** Test de volledige CRUD flow in het dashboard met Pest.
-- [ ] **1.3 Rich Text & SEO (Basis)**
-    - [ ] Integreer de Rich Text editor.
-    - [ ] Voeg basis SEO velden toe aan het Article model.
-    - [ ] **Test:** Controleer of de data correct wordt opgeslagen en getoond.
+- [x] **1.3 Rich Text & SEO (Basis)**
+    - [x] Integreer de Rich Text editor.
+    - [x] Voeg basis SEO velden toe aan het Article model.
+    - [x] **Test:** Controleer of de data correct wordt opgeslagen en getoond.
 
 ---
 
