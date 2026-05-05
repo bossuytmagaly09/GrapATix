@@ -7,9 +7,9 @@ Dit document beschrijft de chronologische opbouw van het project. We beginnen me
 ## 🏗️ Fase 1: Basis & Single-tenant CMS
 Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van tenant-isolatie.
 
-- [ ] **1.1 Core Database Modellen**
-    - [ ] Creëer `Category` model en migratie.
-    - [ ] Creëer `Article` (of `Event`) model met titel, inhoud, status en afbeelding.
+- [x] **1.1 Core Database Modellen**
+    - [x] Creëer `Category` model en migratie.
+    - [x] Creëer `Article` (of `Event`) model met titel, inhoud, status en afbeelding.
     - [ ] **Test:** Valideer met Pest dat je categorieën en artikelen kunt aanmaken en koppelen.
 - [ ] **1.2 Backend Dashboard (Livewire/Flux)**
     - [ ] Bouw CRUD voor Categorieën in het bestaande dashboard.
