@@ -1,0 +1,76 @@
+# Project Roadmap: GrapATix - Van Single naar Multi-tenant CMS
+
+Dit document beschrijft de chronologische opbouw van het project. We beginnen met een **Single-tenant focus** (één organisatie) om de kernfunctionaliteit solide te bouwen, en refactoren daarna naar een **Multi-tenant SaaS** structuur.
+
+---
+
+## 🏗️ Fase 1: Basis & Single-tenant CMS
+Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van tenant-isolatie.
+
+- [ ] **1.1 Core Database Modellen**
+    - [ ] Creëer `Category` model en migratie.
+    - [ ] Creëer `Article` (of `Event`) model met titel, inhoud, status en afbeelding.
+    - [ ] **Test:** Valideer met Pest dat je categorieën en artikelen kunt aanmaken en koppelen.
+- [ ] **1.2 Backend Dashboard (Livewire/Flux)**
+    - [ ] Bouw CRUD voor Categorieën in het bestaande dashboard.
+    - [ ] Bouw CRUD voor Artikelen (inclusief image upload en status management).
+    - [ ] **Test:** Test de volledige CRUD flow in het dashboard met Pest.
+- [ ] **1.3 Rich Text & SEO (Basis)**
+    - [ ] Integreer de Rich Text editor.
+    - [ ] Voeg basis SEO velden toe aan het Article model.
+    - [ ] **Test:** Controleer of de data correct wordt opgeslagen en getoond.
+
+---
+
+## 🎨 Fase 2: Frontend Integratie
+Het omzetten van de `getatix design` naar dynamische pagina's voor onze eerste gebruiker.
+
+- [ ] **2.1 Layout & Assets**
+    - [ ] Integreer CSS/JS uit de design folder via Vite.
+    - [ ] Maak de `AppLayout` en herbruikbare componenten (Nav, Footer).
+- [ ] **2.2 Dynamische Pagina's**
+    - [ ] Maak de `Home` pagina dynamisch met de laatste artikelen.
+    - [ ] Bouw de `Category` overzichtspagina met filters.
+    - [ ] Bouw de `Detail` pagina voor volledige artikelweergave.
+    - [ ] **Test:** Verifieer met Pest dat alle frontend pagina's de data uit de database correct tonen.
+
+---
+
+## 🔄 Fase 3: De Switch naar Multi-tenancy
+Nu de basis werkt, introduceren we de "SaaS" laag volgens de `rules.md`.
+
+- [ ] **3.1 Organization Architectuur**
+    - [ ] Creëer het `Organization` model.
+    - [ ] Voeg `organization_id` toe aan de `User`, `Category` en `Article` tabellen via een nieuwe migratie.
+    - [ ] **Test:** Valideer dat de database structuur nu klaar is voor meerdere tenants.
+- [ ] **3.2 Tenant Scoping & Middleware**
+    - [ ] Implementeer de `TenantScope` (Global Scope) op alle content modellen.
+    - [ ] Maak de `EnsureTenantContext` middleware voor URL-gebaseerde detectie (bv. via slugs).
+    - [ ] **Test:** **CRUCIAL:** Schrijf Pest tests die bewijzen dat Organisatie A de artikelen van Organisatie B NOOIT kan zien.
+- [ ] **3.3 Dashboard Refactoring**
+    - [ ] Update de dashboard routes naar `/dashboard` (tenant-aware).
+    - [ ] Voeg de `/dashboard/master` routes toe voor platform-beheer.
+
+---
+
+## 🛒 Fase 4: Ticketing & Stripe Integratie
+Het toevoegen van commerciële features aan de multi-tenant structuur.
+
+- [ ] **4.1 Order & Ticket Flow**
+    - [ ] Implementeer `Order` en `Ticket` modellen (tenant-scoped).
+    - [ ] Bouw de Stripe Checkout integratie (Queue-based).
+    - [ ] **Test:** Mock een betaling en controleer of tickets correct gegenereerd worden.
+- [ ] **4.2 QR Scanning & Validatie**
+    - [ ] Genereer signed QR-codes voor tickets.
+    - [ ] Bouw de scan-interface (mobile-first).
+    - [ ] **Test:** Valideer de QR-scantoken logica in Pest.
+
+---
+
+## 🚀 Fase 5: Optimalisatie & Finale Check
+- [ ] **5.1 Queues & Mails**
+    - [ ] Zet async mailings op voor orderbevestigingen.
+    - [ ] **Test:** Valideer dat mails in de queue terechtkomen.
+- [ ] **5.2 Volledige Test Suite**
+    - [ ] Draai alle tests (`php artisan test`).
+    - [ ] Handmatige security audit op tenant-isolatie.

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTickets | One platform. Unlimited Events.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#FFFFFF] text-[#001E2B]">
+    <!-- Promo Banner -->
+    <div class="bg-[#001E2B] text-white text-center py-2 text-[11px] font-semibold tracking-[1px] uppercase">
+        Early Bird tickets voor MongoDB World 2026 nu beschikbaar →
+    </div>
+
+    <!-- Nav -->
+    <nav class="sticky top-0 bg-white border-b border-[#E8EDEB] z-50 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-8">
+            <div class="font-bold text-2xl tracking-tighter text-[#001E2B]">Tech<span class="text-[#00ED64]">Tickets</span></div>
+            <div class="hidden md:flex gap-6 text-[14px] font-medium text-[#5C6C75]">
+                <a href="category.html">Conferenties</a>
+                <a href="#">Workshops</a>
+                <a href="#">Certificeringen</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="text-[14px] font-semibold">Inloggen</button>
+            <button class="bg-[#00ED64] text-[#001E2B] px-6 py-2 rounded-full font-bold text-[14px] shadow-sm">Probeer Gratis</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-[#001E2B] text-white py-24 px-8 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="hero-content">
+                <h1 class="text-[72px] font-medium leading-[1.1] tracking-[-1.5px] mb-6">Een platform. <br><span class="text-[#00ED64]">Onbeperkte events.</span></h1>
+                <p class="text-[18px] text-[#98A1A8] mb-8 max-w-md">Ontdek de grootste tech-conferenties wereldwijd. Beheer je tickets, sessies en networking in één interface.</p>
+                <div class="flex gap-4">
+                    <button class="bg-[#00ED64] text-[#001E2B] px-8 py-3 rounded-full font-bold text-[14px]">Ontdek Events</button>
+                    <button class="border border-[#3D4F58] px-8 py-3 rounded-full font-bold text-[14px] text-white">Bekijk Demo</button>
+                </div>
+            </div>
+            <!-- Code Mockup Card -->
+            <div class="code-mockup bg-[#0C1C27] p-8 rounded-[12px] border border-[#3D4F58] shadow-2xl relative">
+                <div class="flex gap-2 mb-4">
+                    <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                </div>
+                <pre class="text-[#00ED64] font-mono text-sm leading-relaxed"><code>{
+  "event": "MongoDB World 2026",
+  "status": "In_Progress",
+  "tickets_left": 142,
+  "location": "New York, NY",
+  "tags": ["Database", "AI", "Cloud"]
+}</code></pre>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Grid -->
+    <section class="py-24 px-8 max-w-7xl mx-auto">
+        <h2 class="text-[36px] font-medium mb-12 tracking-tight">Aanbevolen voor jou</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Card -->
+            <div class="event-card group bg-white border border-[#E8EDEB] rounded-[12px] p-6 transition-all hover:shadow-lg">
+                <div class="bg-[#F9FBFA] rounded-[12px] h-48 mb-6 overflow-hidden">
+                    <div class="w-full h-full bg-gradient-to-br from-[#00684A] to-[#001E2B] p-8">
+                        <span class="bg-[#C3E2D1] text-[#00684A] px-2 py-1 rounded-[4px] text-[11px] font-bold uppercase tracking-wider">AI & Search</span>
+                    </div>
+                </div>
+                <h3 class="text-[22px] font-medium mb-2">Vector Search Summit</h3>
+                <p class="text-[#5C6C75] text-[14px] mb-6">Leer alles over de toekomst van RAG en vector databases.</p>
+                <a href="detail.html" class="text-[#00684A] font-semibold text-[14px] group-hover:underline">Bekijk event →</a>
+            </div>
+            <!-- More cards here... -->
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
