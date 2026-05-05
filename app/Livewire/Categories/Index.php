@@ -26,7 +26,7 @@ class Index extends Component
     public function create()
     {
         $this->reset(['name', 'slug', 'editingCategoryId']);
-        $this->modal('category-modal')->show();
+        Flux::modal('category-modal')->show();
     }
 
     public function edit(Category $category)
@@ -34,7 +34,7 @@ class Index extends Component
         $this->editingCategoryId = $category->id;
         $this->name = $category->name;
         $this->slug = $category->slug;
-        $this->modal('category-modal')->show();
+        Flux::modal('category-modal')->show();
     }
 
     public function save()
@@ -60,7 +60,7 @@ class Index extends Component
         }
 
         $this->reset(['name', 'slug', 'editingCategoryId']);
-        $this->modal('category-modal')->close();
+        Flux::modal('category-modal')->close();
     }
 
     public function delete(Category $category)
@@ -73,6 +73,6 @@ class Index extends Component
     {
         return view('livewire.categories.index', [
             'categories' => Category::orderBy('name')->get(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', ['title' => __('Categories')]);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Middleware\EnsureTeamMembership;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
+use Livewire\Volt\Volt;
 
 Route::view('/', 'welcome', [
     'canRegister' => Features::enabled(Features::registration()),
