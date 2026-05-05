@@ -13,7 +13,7 @@ Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van t
     - [x] **Test:** Valideer met Pest dat je categorieën en artikelen kunt aanmaken en koppelen.
 - [ ] **1.2 Backend Dashboard (Livewire/Flux)**
     - [x] Bouw CRUD voor Categorieën in het bestaande dashboard.
-    - [ ] Bouw CRUD voor Artikelen (inclusief image upload en status management).
+    - [x] Bouw CRUD voor Artikelen (inclusief image upload en status management).
     - [ ] **Test:** Test de volledige CRUD flow in het dashboard met Pest.
 - [ ] **1.3 Rich Text & SEO (Basis)**
     - [ ] Integreer de Rich Text editor.
