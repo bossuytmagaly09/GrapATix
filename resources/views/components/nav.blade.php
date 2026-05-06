@@ -4,9 +4,11 @@
             GrapA<span class="text-[#00ED64]">Tix</span>
         </a>
         <div class="hidden md:flex gap-6 text-[14px] font-medium text-[#5C6C75]">
-            <a href="#" class="hover:text-[#00ED64] transition-colors">Conferenties</a>
-            <a href="#" class="hover:text-[#00ED64] transition-colors">Workshops</a>
-            <a href="#" class="hover:text-[#00ED64] transition-colors">Certificeringen</a>
+            @foreach(\App\Models\Category::take(4)->get() as $navCategory)
+                <a href="{{ route('categories.show', $navCategory->slug) }}" class="hover:text-[#00ED64] transition-colors">
+                    {{ $navCategory->name }}
+                </a>
+            @endforeach
         </div>
     </div>
     <div class="flex items-center gap-4">
