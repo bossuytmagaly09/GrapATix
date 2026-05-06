@@ -181,6 +181,34 @@
             border-bottom-color: #00ED64 !important;
             background: linear-gradient(to top, rgba(0, 237, 100, 0.05), transparent) !important;
         }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .sign-in-container, .sign-up-container {
+                width: 100%;
+            }
+
+            .show-register .sign-in-container {
+                transform: translateX(-100%);
+            }
+
+            .show-register .sign-up-container {
+                transform: translateX(0);
+            }
+
+            .overlay-container {
+                display: none;
+            }
+
+            .auth-form {
+                padding: 0 30px;
+            }
+
+            .welcome-title {
+                font-size: 42px;
+                letter-spacing: -2px;
+            }
+        }
     </style>
 
     <div class="auth-container">
@@ -197,6 +225,11 @@
                     <flux:button type="submit" variant="primary" class="w-full bg-[#00ED64] text-[#001E2B] font-black py-4 rounded-full mt-4">
                         REGISTREREN
                     </flux:button>
+                    
+                    <div class="md:hidden text-center pt-8">
+                        <p class="text-[#98A1A8] text-[14px] mb-2">Al een account?</p>
+                        <button type="button" @click="isRegister = false" class="text-[#00ED64] font-bold uppercase tracking-wider text-[14px]">Log hier in</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -217,6 +250,11 @@
                     <flux:button type="submit" variant="primary" class="w-full bg-[#00ED64] text-[#001E2B] font-black py-4 rounded-full mt-4">
                         INLOGGEN
                     </flux:button>
+
+                    <div class="md:hidden text-center pt-8">
+                        <p class="text-[#98A1A8] text-[14px] mb-2">Nog geen account?</p>
+                        <button type="button" @click="isRegister = true" class="text-[#00ED64] font-bold uppercase tracking-wider text-[14px]">Registreer hier</button>
+                    </div>
                 </div>
             </form>
         </div>

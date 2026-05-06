@@ -1,21 +1,21 @@
 <div class="bg-[#001E2B] min-h-screen text-white font-sans selection:bg-[#00ED64]/30">
     <!-- Hero Section -->
-    <header class="relative pt-16 pb-24 px-12 overflow-hidden text-left">
+    <header class="relative pt-24 md:pt-32 pb-12 md:pb-24 px-6 md:px-12 overflow-hidden text-left">
         <div class="relative z-10">
-            <h1 class="text-[72px] md:text-[110px] font-medium leading-[0.95] tracking-[-4px] mb-8">
+            <h1 class="text-[52px] md:text-[110px] font-black leading-[1] md:leading-[0.95] tracking-[-2px] md:tracking-[-4px] mb-8 uppercase">
                 Een platform. <br><span class="text-[#00ED64]">Onbeperkte events.</span>
             </h1>
         </div>
     </header>
 
-    <div class="px-12 pb-32 space-y-12">
+    <div class="px-6 md:px-12 pb-32 space-y-12 md:space-y-16 overflow-x-hidden">
         <!-- Main Grid Layout -->
-        <div class="grid grid-cols-12 gap-10">
+        <div class="grid grid-cols-12 gap-6 md:gap-10">
             
             <!-- Left: Featured Festivals (Col 5) -->
-            <div class="col-span-12 lg:col-span-5 space-y-6">
-                <h2 class="text-[24px] font-medium tracking-tight">Featured Festivals</h2>
-                <div class="space-y-4">
+            <div class="col-span-12 lg:col-span-5 space-y-8">
+                <h2 class="text-[28px] md:text-[32px] font-black uppercase tracking-tighter text-[#00ED64]">Featured Festivals</h2>
+                <div class="space-y-6">
                     @forelse($events->where('category.name', 'Festivals')->take(2) as $event)
                         <div class="group relative bg-[#081621] border border-white/5 rounded-[16px] overflow-hidden aspect-[16/9] hover:border-[#00ED64]/50 transition-all duration-300">
                             <img src="{{ $event->getFirstMediaUrl('cover') ?: asset('images/placeholders/festival.png') }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
@@ -43,8 +43,8 @@
             </div>
 
             <!-- Middle: Upcoming Expos (Col 4) -->
-            <div class="col-span-12 lg:col-span-4 space-y-6">
-                <h2 class="text-[20px] font-medium tracking-tight opacity-80">Upcoming Expos & Trade Fairs</h2>
+            <div class="col-span-12 lg:col-span-4 space-y-8">
+                <h2 class="text-[24px] md:text-[28px] font-black uppercase tracking-tighter opacity-90">Upcoming Expos</h2>
                 <div class="space-y-4">
                     @foreach(range(1, 3) as $i)
                         <div class="flex gap-4 p-4 rounded-[12px] bg-[#081621] border border-white/5 hover:border-[#00ED64]/30 hover:bg-[#00ED64]/5 transition-all group">
@@ -64,8 +64,8 @@
             </div>
 
             <!-- Right: Conferences & More (Col 3) -->
-            <div class="col-span-12 lg:col-span-3 space-y-6">
-                <h2 class="text-[20px] font-medium tracking-tight opacity-80">Conferences & More</h2>
+            <div class="col-span-12 lg:col-span-3 space-y-8">
+                <h2 class="text-[24px] md:text-[28px] font-black uppercase tracking-tighter opacity-90">Conferences</h2>
                 <div class="grid gap-4">
                     <div class="p-6 rounded-[16px] bg-[#081621] border border-white/5 hover:border-[#00ED64]/40 hover:bg-[#00ED64]/5 transition-all group relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 group-hover:scale-110 transition-all">

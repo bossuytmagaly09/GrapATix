@@ -11,7 +11,7 @@
 </head>
 <body class="bg-[#FFFFFF] text-[#001E2B] selection:bg-[#00ED64]/30">
     <!-- Promo Banner -->
-    <div class="bg-[#001E2B] text-white text-center py-2 text-[11px] font-semibold tracking-[1px] uppercase">
+    <div class="bg-[#001E2B] text-white text-center py-2.5 px-6 text-[10px] md:text-[11px] font-bold tracking-[0.5px] md:tracking-[1px] uppercase border-b border-white/5">
         Early Bird tickets voor MongoDB World 2026 nu beschikbaar →
     </div>
 

@@ -1,59 +1,59 @@
 <div class="bg-[#001E2B] min-h-screen text-white font-sans">
     <!-- Header -->
-    <header class="px-12 pt-24 pb-16">
+    <header class="px-6 md:px-12 pt-12 md:pt-24 pb-8 md:pb-16">
         <div class="max-w-4xl">
-            <h1 class="text-[64px] md:text-[92px] font-medium leading-[0.9] tracking-[-3px] mb-8">
+            <h1 class="text-[42px] md:text-[92px] font-medium leading-[1] md:leading-[0.9] tracking-[-1px] md:tracking-[-3px] mb-4 md:mb-8">
                 {{ $category->name }}
             </h1>
-            <p class="text-[20px] text-[#98A1A8] max-w-2xl">
-                Ontdek de beste events in de categorie {{ strtolower($category->name) }}. Filter op naam of blader door ons aanbod.
+            <p class="text-[18px] md:text-[20px] text-[#98A1A8] max-w-2xl">
+                Ontdek de beste events in de categorie {{ strtolower($category->name) }}.
             </p>
         </div>
     </header>
 
     <!-- Filters & Grid -->
-    <div class="px-12 pb-32">
-        <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-12 gap-8">
-            <div class="flex flex-wrap items-center gap-4">
+    <div class="px-6 md:px-12 pb-32">
+        <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 md:mb-12 gap-6 md:gap-8">
+            <div class="flex flex-wrap items-center gap-2 md:gap-4">
                 <button 
                     wire:click="$set('dateFilter', 'all')"
-                    class="px-6 py-2 rounded-full text-[14px] font-bold transition-all {{ $dateFilter === 'all' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
+                    class="px-4 md:px-6 py-2 rounded-full text-[12px] md:text-[14px] font-bold transition-all {{ $dateFilter === 'all' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
                 >
-                    Alle Events
+                    Alle
                 </button>
                 <button 
                     wire:click="$set('dateFilter', 'today')"
-                    class="px-6 py-2 rounded-full text-[14px] font-bold transition-all {{ $dateFilter === 'today' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
+                    class="px-4 md:px-6 py-2 rounded-full text-[12px] md:text-[14px] font-bold transition-all {{ $dateFilter === 'today' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
                 >
                     Vandaag
                 </button>
                 <button 
                     wire:click="$set('dateFilter', 'tomorrow')"
-                    class="px-6 py-2 rounded-full text-[14px] font-bold transition-all {{ $dateFilter === 'tomorrow' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
+                    class="px-4 md:px-6 py-2 rounded-full text-[12px] md:text-[14px] font-bold transition-all {{ $dateFilter === 'tomorrow' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
                 >
                     Morgen
                 </button>
                 <button 
                     wire:click="$set('dateFilter', 'weekend')"
-                    class="px-6 py-2 rounded-full text-[14px] font-bold transition-all {{ $dateFilter === 'weekend' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
+                    class="px-4 md:px-6 py-2 rounded-full text-[12px] md:text-[14px] font-bold transition-all {{ $dateFilter === 'weekend' ? 'bg-[#00ED64] text-[#001E2B]' : 'bg-[#081621] text-[#98A1A8] hover:bg-white/10' }}"
                 >
-                    Dit Weekend
+                    Weekend
                 </button>
             </div>
 
-            <div class="flex items-center gap-8 w-full xl:w-auto">
+            <div class="flex items-center gap-4 md:gap-8 w-full xl:w-auto">
                 <div class="relative w-full xl:w-80">
                     <flux:icon icon="magnifying-glass" class="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-[#5C6C75]" />
                     <input 
                         wire:model.live="search"
                         type="text" 
-                        placeholder="Zoek in {{ strtolower($category->name) }}..." 
-                        class="w-full bg-[#081621] border border-white/5 rounded-full py-3 pl-12 pr-6 text-white focus:border-[#00ED64] focus:ring-0 transition-all"
+                        placeholder="Zoek..." 
+                        class="w-full bg-[#081621] border border-white/5 rounded-full py-3 pl-12 pr-6 text-white focus:border-[#00ED64] focus:ring-0 transition-all text-[14px]"
                     >
                 </div>
                 
                 <div class="hidden md:block text-[14px] text-[#98A1A8] whitespace-nowrap">
-                    Totaal <span class="text-white font-bold">{{ $events->count() }}</span> gevonden
+                    <span class="text-white font-bold">{{ $events->count() }}</span> gevonden
                 </div>
             </div>
         </div>

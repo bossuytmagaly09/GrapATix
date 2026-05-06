@@ -28,11 +28,15 @@ Het omzetten van de `getatix design` naar dynamische pagina's voor onze eerste g
 - [x] **2.1 Layout & Assets**
     - [x] Integreer CSS/JS uit de design folder via Vite.
     - [x] Maak de `AppLayout` en herbruikbare componenten (Nav, Footer).
-- [x] **2.2 Dynamische Pagina's**
+- [ ] **2.2 Dynamische Pagina's**
     - [x] Maak de `Home` pagina dynamisch met de laatste artikelen.
     - [x] Bouw de `Category` overzichtspagina met filters.
     - [x] Bouw de `Detail` pagina voor volledige artikelweergave.
     - [ ] **Test:** Verifieer met Pest dat alle frontend pagina's de data uit de database correct tonen.
+- [x] **2.3 Mobile-First Optimalisatie**
+    - [x] Maak de `Home` en `Detail` pagina's "App-like" op mobiel.
+    - [x] Implementeer een sticky mobiele navigatie / CTA.
+    - [x] Optimaliseer de Auth-slider voor mobiele schermen.
 
 ---
 
