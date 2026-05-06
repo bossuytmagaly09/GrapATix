@@ -11,7 +11,7 @@ class Show extends Component
 
     public function mount(Event $event)
     {
-        $this->event = $event->load(['category', 'media']);
+        $this->event = $event->load(['category', 'venue', 'media']);
     }
 
     public function render()

@@ -10,6 +10,7 @@ class Show extends Component
 {
     public Category $category;
     public $search = '';
+    public $dateFilter = 'all';
 
     public function mount(Category $category)
     {
@@ -18,11 +19,22 @@ class Show extends Component
 
     public function render()
     {
-        $events = Event::with(['category', 'media'])
+        $query = Event::with(['category', 'media'])
             ->where('category_id', $this->category->id)
-            ->where('title', 'like', '%' . $this->search . '%')
-            ->orderBy('start_date', 'asc')
-            ->get();
+            ->where('title', 'like', '%' . $this->search . '%');
+
+        if ($this->dateFilter === 'today') {
+            $query->whereDate('start_date', now()->toDateString());
+        } elseif ($this->dateFilter === 'tomorrow') {
+            $query->whereDate('start_date', now()->addDay()->toDateString());
+        } elseif ($this->dateFilter === 'weekend') {
+            $query->whereBetween('start_date', [
+                now()->next('friday')->at('18:00'),
+                now()->next('sunday')->at('23:59')
+            ]);
+        }
+
+        $events = $query->orderBy('start_date', 'asc')->get();
 
         return view('livewire.categories.show', [
             'events' => $events,
