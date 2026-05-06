@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Source+Code+Pro&display=swap');
+
+:root {
+    --brand-green: #00ED64;
+    --brand-teal-deep: #001E2B;
+    --ink: #001E2B;
+    --canvas: #FFFFFF;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+code, pre {
+    font-family: 'Source Code Pro', monospace;
+}
+
+.hero-display {
+    font-size: 72px;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    font-weight: 500;
+}
+
+.shadow-card {
+    box-shadow: rgba(0, 30, 43, 0.08) 0px 4px 12px 0px;
+}

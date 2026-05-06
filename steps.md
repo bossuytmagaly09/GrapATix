@@ -11,7 +11,7 @@ Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van t
     - [x] Creëer `Category` model en migratie.
     - [x] Creëer `Article` (of `Event`) model met titel, inhoud, status en afbeelding.
     - [x] **Test:** Valideer met Pest dat je categorieën en artikelen kunt aanmaken en koppelen.
-- [ ] **1.2 Backend Dashboard (Livewire/Flux)**
+- [x] **1.2 Backend Dashboard (Livewire/Flux)**
     - [x] Bouw CRUD voor Categorieën in het bestaande dashboard.
     - [x] Bouw CRUD voor Artikelen (inclusief image upload en status management).
     - [x] **Test:** Test de volledige CRUD flow in het dashboard met Pest.
@@ -25,9 +25,9 @@ Focus op de kern: Artikelen en Categorieën beheren zonder de complexiteit van t
 ## 🎨 Fase 2: Frontend Integratie
 Het omzetten van de `getatix design` naar dynamische pagina's voor onze eerste gebruiker.
 
-- [ ] **2.1 Layout & Assets**
-    - [ ] Integreer CSS/JS uit de design folder via Vite.
-    - [ ] Maak de `AppLayout` en herbruikbare componenten (Nav, Footer).
+- [x] **2.1 Layout & Assets**
+    - [x] Integreer CSS/JS uit de design folder via Vite.
+    - [x] Maak de `AppLayout` en herbruikbare componenten (Nav, Footer).
 - [ ] **2.2 Dynamische Pagina's**
     - [ ] Maak de `Home` pagina dynamisch met de laatste artikelen.
     - [ ] Bouw de `Category` overzichtspagina met filters.
