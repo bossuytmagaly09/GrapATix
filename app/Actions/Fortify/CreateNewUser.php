@@ -32,7 +32,13 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         return DB::transaction(function () use ($input) {
+            $organization = \App\Models\Organization::first() ?? \App\Models\Organization::create([
+                'name' => 'Default Organization',
+                'subdomain' => 'default',
+            ]);
+
             $user = User::create([
+                'organization_id' => $organization->id,
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => $input['password'],
