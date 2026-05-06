@@ -59,4 +59,9 @@ class Event extends Model implements HasMedia
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function venue(): BelongsTo
+    {
+        return $this->belongsTo(Venue::class);
+    }
 }

@@ -23,7 +23,7 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <flux:icon icon="map-pin" class="size-5 text-[#00ED64]" />
-                        <span>{{ $event->venue ? $event->venue->name . ', ' . $event->venue->city : 'Locatie nog onbekend' }}</span>
+                        <span>{{ $event->venue ? $event->venue->name : 'Locatie nog onbekend' }}</span>
                     </div>
                     <div class="flex items-center gap-3">
                         <flux:icon icon="ticket" class="size-5 text-[#00ED64]" />
