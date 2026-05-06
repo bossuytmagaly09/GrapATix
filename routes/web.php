@@ -3,13 +3,10 @@
 use App\Http\Middleware\EnsureTeamMembership;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Events\Index as EventsIndex;
+use App\Livewire\Home;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
-use Livewire\Volt\Volt;
 
-Route::view('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::get('/', Home::class)->name('home');
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])

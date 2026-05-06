@@ -1,7 +1,7 @@
-<footer class="bg-[#001E2B] text-white py-16 px-8 mt-24">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+<footer class="bg-[#001E2B] text-white py-16 px-12 mt-24">
+    <div class="grid md:grid-cols-4 gap-12">
         <div class="col-span-2">
-            <div class="font-bold text-2xl tracking-tighter mb-6">Tech<span class="text-[#00ED64]">Tickets</span></div>
+            <div class="font-bold text-2xl tracking-tighter mb-6">GrapA<span class="text-[#00ED64]">Tix</span></div>
             <p class="text-[#98A1A8] text-[14px] max-w-sm mb-8">
                 Het grootste platform voor tech-events wereldwijd. Ontdek, leer en netwerk met de beste in de industrie.
             </p>
@@ -23,8 +23,8 @@
             </ul>
         </div>
     </div>
-    <div class="max-w-7xl mx-auto border-t border-[#3D4F58] mt-16 pt-8 flex justify-between items-center text-[#98A1A8] text-[12px]">
-        <p>© {{ date('Y') }} TechTickets. Alle rechten voorbehouden.</p>
+    <div class="border-t border-[#3D4F58] mt-16 pt-8 flex justify-between items-center text-[#98A1A8] text-[12px]">
+        <p>© {{ date('Y') }} GrapATix. Alle rechten voorbehouden.</p>
         <div class="flex gap-6">
             <a href="#" class="hover:text-white">Twitter</a>
             <a href="#" class="hover:text-white">LinkedIn</a>
