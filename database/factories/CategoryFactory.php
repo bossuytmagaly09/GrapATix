@@ -17,6 +17,7 @@ class CategoryFactory extends Factory
     {
         $name = $this->faker->unique()->word();
         return [
+            'organization_id' => \App\Models\Organization::factory(),
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
         ];
