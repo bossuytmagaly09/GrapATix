@@ -43,9 +43,9 @@ Het omzetten van de `getatix design` naar dynamische pagina's voor onze eerste g
 ## 🔄 Fase 3: De Switch naar Multi-tenancy
 Nu de basis werkt, introduceren we de "SaaS" laag volgens de `rules.md`.
 
-- [ ] **3.1 Organization Architectuur**
-    - [ ] Creëer het `Organization` model.
-    - [ ] Voeg `organization_id` toe aan de `User`, `Category` en `Article` tabellen via een nieuwe migratie.
+- [/] **3.1 Organization Architectuur**
+    - [x] Creëer het `Organization` model.
+    - [ ] Voeg `organization_id` toe aan de `User`, `Category` en `Event` tabellen via migraties.
     - [ ] **Test:** Valideer dat de database structuur nu klaar is voor meerdere tenants.
 - [ ] **3.2 Tenant Scoping & Middleware**
     - [ ] Implementeer de `TenantScope` (Global Scope) op alle content modellen.
