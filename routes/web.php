@@ -9,23 +9,30 @@ use App\Livewire\Categories\Show as CategoriesShow;
 use App\Livewire\Auth as AuthComponent;
 use Illuminate\Support\Facades\Route;
 
+// Frontend Routes
 Route::get('/', Home::class)->name('home');
 Route::get('/events/{event:slug}', EventsShow::class)->name('events.show');
 Route::get('/categories/{category:slug}', CategoriesShow::class)->name('categories.show');
 
+// Auth Routes
 Route::get('/login', AuthComponent::class)->name('login');
 Route::get('/register', AuthComponent::class)->name('register');
 
-Route::prefix('{current_team}')
-    ->middleware(['auth', 'verified', EnsureTeamMembership::class])
+// Dashboard Routes (Tenant-aware)
+Route::prefix('dashboard')
+    ->middleware(['auth', 'verified'])
     ->group(function () {
-        Route::view('dashboard', 'dashboard')->name('dashboard');
+        Route::view('/', 'dashboard')->name('dashboard');
+        Route::get('/categories', CategoriesIndex::class)->name('categories.index');
+        Route::get('/events', EventsIndex::class)->name('events.index');
+        
+        // Master Admin Routes (Platform Beheer)
+        Route::middleware(['can:access-master-dashboard'])
+            ->prefix('master')
+            ->group(function () {
+                Route::get('/', \App\Livewire\Dashboard\Master\Index::class)->name('dashboard.master');
+            });
     });
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('categories', CategoriesIndex::class)->name('categories.index');
-    Route::get('events', EventsIndex::class)->name('events.index');
-});
 
 Route::middleware(['auth'])->group(function () {
     Route::livewire('invitations/{invitation}/accept', 'pages::teams.accept-invitation')->name('invitations.accept');

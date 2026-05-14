@@ -24,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        \Illuminate\Support\Facades\Gate::define('access-master-dashboard', function (\App\Models\User $user) {
+            // Voor nu: alleen de allereerste gebruiker of een specifiek domein is Master Admin
+            // Dit kan later worden uitgebreid met een 'is_admin' kolom in de database
+            return $user->id === 1 || str_ends_with($user->email, '@grapatix.be');
+        });
     }
 
     /**
