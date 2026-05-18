@@ -60,8 +60,8 @@ Nu de basis werkt, introduceren we de "SaaS" laag volgens de `rules.md`.
 ## 🛒 Fase 4: Ticketing & Stripe Integratie
 Het toevoegen van commerciële features aan de multi-tenant structuur.
 
-- [ ] **4.1 Order & Ticket Flow**
-    - [ ] Implementeer `Order` en `Ticket` modellen (tenant-scoped).
+- [/] **4.1 Order & Ticket Flow**
+    - [x] Implementeer `Order` en `Ticket` modellen (tenant-scoped).
     - [ ] Bouw de Stripe Checkout integratie (Queue-based).
     - [ ] **Test:** Mock een betaling en controleer of tickets correct gegenereerd worden.
 - [ ] **4.2 QR Scanning & Validatie**
