@@ -29,6 +29,22 @@
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
+            @can('access-master-dashboard')
+                <flux:sidebar.nav>
+                    <flux:sidebar.group heading="Platform Beheer (Master)" class="grid">
+                        <flux:sidebar.item icon="shield-check" :href="route('dashboard.master')" :current="request()->routeIs('dashboard.master')" wire:navigate>
+                            Master Panel
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="building-office-2" :href="route('dashboard.master.organizations')" :current="request()->routeIs('dashboard.master.organizations') || request()->routeIs('dashboard.master.organizations.*')" wire:navigate>
+                            Organisaties
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="users" :href="route('dashboard.master.users')" :current="request()->routeIs('dashboard.master.users') || request()->routeIs('dashboard.master.users.*')" wire:navigate>
+                            Gebruikers
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                </flux:sidebar.nav>
+            @endcan
+
             <flux:spacer />
 
             <flux:sidebar.nav>
