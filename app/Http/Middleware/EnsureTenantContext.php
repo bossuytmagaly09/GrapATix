@@ -21,6 +21,8 @@ class EnsureTenantContext
             $user = auth()->user();
             if ($user->organization_id) {
                 Session::put('active_organization_id', $user->organization_id);
+            } elseif ($request->is('dashboard') && $user->can('access-master-dashboard')) {
+                return redirect()->route('dashboard.master');
             }
         }
 

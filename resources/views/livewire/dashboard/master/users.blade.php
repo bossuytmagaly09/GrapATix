@@ -51,13 +51,13 @@
                         @php
                             $isMasterAdmin = $user->id === 1 || str_ends_with($user->email, '@grapatix.be');
                         @endphp
-                        <tr class="hover:bg-white/[0.02] transition-colors text-sm {{ $user->trashed() ? 'opacity-50' : '' }}">
+                        <tr class="hover:bg-white/[0.02] transition-colors text-sm">
                             <td class="px-6 py-4 font-bold text-white flex items-center gap-3">
                                 <div class="w-9 h-9 rounded-full bg-[#001E2B] flex items-center justify-center border border-white/10 font-bold text-xs text-[#00ED64] shrink-0">
                                     {{ $user->initials() }}
                                 </div>
                                 <div>
-                                    <span class="{{ $user->trashed() ? 'line-through text-white/40' : 'text-white' }}">{{ $user->name }}</span>
+                                    <span class="text-white">{{ $user->name }}</span>
                                     @if($user->id === auth()->id())
                                         <span class="text-[9px] bg-white/10 text-white font-bold ml-1.5 px-1.5 py-0.5 rounded border border-white/10">Jij</span>
                                     @endif
@@ -93,29 +93,16 @@
                             </td>
                             <td class="px-6 py-4 text-white/50 text-xs">{{ $user->created_at->format('d/m/Y') }}</td>
                             <td class="px-6 py-4">
-                                @if($user->trashed())
-                                    <span class="bg-red-500/10 text-red-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-red-500/20">Gearchiveerd</span>
-                                @else
-                                    <span class="bg-[#00ED64]/10 text-[#00ED64] text-[10px] font-bold px-2.5 py-1 rounded-full border border-[#00ED64]/20">Actief</span>
-                                @endif
+                                <span class="bg-[#00ED64]/10 text-[#00ED64] text-[10px] font-bold px-2.5 py-1 rounded-full border border-[#00ED64]/20">Actief</span>
                             </td>
                             <td class="px-6 py-4 text-right space-x-1.5">
-                                @if($user->trashed())
-                                    <button wire:click="restore({{ $user->id }})" class="p-1.5 bg-green-500/10 hover:bg-green-500 text-green-400 hover:text-white rounded-lg border border-green-500/20 transition-all text-xs font-bold px-2.5" title="Herstellen">
-                                        Herstellen
+                                <button wire:click="edit({{ $user->id }})" class="p-1.5 bg-white/5 hover:bg-[#00ED64] text-white/80 hover:text-[#001E2B] rounded-lg border border-white/10 transition-all" title="Bewerken">
+                                    <flux:icon icon="pencil-square" class="size-4" />
+                                </button>
+                                @if($user->id !== auth()->id())
+                                    <button wire:click="delete({{ $user->id }})" wire:confirm="Weet u zeker dat u deze gebruiker wilt verwijderen?" class="p-1.5 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-lg border border-red-500/20 transition-all" title="Verwijderen">
+                                        <flux:icon icon="trash" class="size-4" />
                                     </button>
-                                    <button wire:click="forceDelete({{ $user->id }})" wire:confirm="Weet u zeker dat u deze gebruiker definitief wilt verwijderen? Dit kan niet ongedaan worden gemaakt!" class="p-1.5 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-lg border border-red-500/20 transition-all text-xs font-bold px-2.5" title="Definitief Verwijderen">
-                                        Definitief
-                                    </button>
-                                @else
-                                    <button wire:click="edit({{ $user->id }})" class="p-1.5 bg-white/5 hover:bg-[#00ED64] text-white/80 hover:text-[#001E2B] rounded-lg border border-white/10 transition-all" title="Bewerken">
-                                        <flux:icon icon="pencil-square" class="size-4" />
-                                    </button>
-                                    @if($user->id !== auth()->id())
-                                        <button wire:click="delete({{ $user->id }})" wire:confirm="Weet u zeker dat u deze gebruiker wilt archiveren?" class="p-1.5 bg-red-500/10 hover:bg-red-500 text-red-450 hover:text-white rounded-lg border border-red-500/20 transition-all" title="Archiveren">
-                                            <flux:icon icon="archive-box" class="size-4" />
-                                        </button>
-                                    @endif
                                 @endif
                             </td>
                         </tr>

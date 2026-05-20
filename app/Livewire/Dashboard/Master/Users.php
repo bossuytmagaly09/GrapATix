@@ -21,7 +21,6 @@ class Users extends Component
     {
         // Bypass global tenant scopes so the Master Admin can see ALL users
         $users = User::withoutGlobalScopes()
-            ->withTrashed()
             ->with('organization')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -44,7 +43,7 @@ class Users extends Component
 
     public function edit($id)
     {
-        $user = User::withoutGlobalScopes()->withTrashed()->findOrFail($id);
+        $user = User::withoutGlobalScopes()->findOrFail($id);
         $this->editingUserId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
@@ -62,7 +61,7 @@ class Users extends Component
                 'required',
                 'email',
                 function ($attribute, $value, $fail) {
-                    $query = User::withoutGlobalScopes()->withTrashed()->where('email', Str::lower($value));
+                    $query = User::withoutGlobalScopes()->where('email', Str::lower($value));
                     if ($this->editingUserId) {
                         $query->where('id', '!=', $this->editingUserId);
                     }
@@ -93,7 +92,7 @@ class Users extends Component
         }
 
         if ($this->editingUserId) {
-            $user = User::withoutGlobalScopes()->withTrashed()->findOrFail($this->editingUserId);
+            $user = User::withoutGlobalScopes()->findOrFail($this->editingUserId);
             $user->update($data);
             Flux::toast(__('Gebruiker succesvol bijgewerkt.'));
         } else {
@@ -108,31 +107,12 @@ class Users extends Component
     public function delete($id)
     {
         if ($id == auth()->id()) {
-            Flux::toast(__('U kunt uw eigen account niet archiveren.'), 'error');
+            Flux::toast(__('U kunt uw eigen account niet verwijderen.'), 'error');
             return;
         }
 
         $user = User::withoutGlobalScopes()->findOrFail($id);
         $user->delete();
-        Flux::toast(__('Gebruiker is gearchiveerd (soft deleted).'));
-    }
-
-    public function restore($id)
-    {
-        $user = User::withoutGlobalScopes()->onlyTrashed()->findOrFail($id);
-        $user->restore();
-        Flux::toast(__('Gebruiker succesvol hersteld.'));
-    }
-
-    public function forceDelete($id)
-    {
-        if ($id == auth()->id()) {
-            Flux::toast(__('U kunt uw eigen account niet definitief verwijderen.'), 'error');
-            return;
-        }
-
-        $user = User::withoutGlobalScopes()->withTrashed()->findOrFail($id);
-        $user->forceDelete();
-        Flux::toast(__('Gebruiker is definitief verwijderd uit het platform.'));
+        Flux::toast(__('Gebruiker succesvol verwijderd.'));
     }
 }

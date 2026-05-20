@@ -18,4 +18,20 @@ class Organization extends Model
         'favicon',
         'background_image',
     ];
+
+    /**
+     * Get all events belonging to this organization.
+     */
+    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
+     * Get all users linked to this organization.
+     */
+    public function users(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 }

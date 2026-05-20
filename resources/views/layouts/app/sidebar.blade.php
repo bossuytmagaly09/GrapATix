@@ -12,6 +12,7 @@
 
             <livewire:team-switcher />
 
+            @cannot('access-master-dashboard')
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
@@ -28,6 +29,7 @@
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
+            @endcannot
 
             @can('access-master-dashboard')
                 <flux:sidebar.nav>
