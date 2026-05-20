@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Home::class)->name('home');
 Route::get('/events/{event:slug}', EventsShow::class)->name('events.show');
 Route::get('/categories/{category:slug}', CategoriesShow::class)->name('categories.show');
+Route::get('/checkout/success', \App\Livewire\Checkout\Success::class)->name('checkout.success');
 
 // Auth Routes
 Route::get('/login', AuthComponent::class)->name('login');
@@ -25,6 +26,7 @@ Route::prefix('dashboard')
         Route::view('/', 'dashboard')->name('dashboard');
         Route::get('/categories', CategoriesIndex::class)->name('categories.index');
         Route::get('/events', EventsIndex::class)->name('events.index');
+        Route::get('/orders', \App\Livewire\Dashboard\Orders::class)->name('orders.index');
         
         // Master Admin Routes (Platform Beheer)
         Route::middleware(['can:access-master-dashboard'])

@@ -65,4 +65,21 @@ class Event extends Model implements HasMedia
     {
         return $this->belongsTo(Venue::class);
     }
+
+    public function ticketTypes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TicketType::class);
+    }
+
+    public function getDefaultTicketType()
+    {
+        return $this->ticketTypes()->firstOrCreate([
+            'name' => 'Standaard Ticket',
+        ], [
+            'price_cents' => $this->price_cents,
+            'is_published' => true,
+            'published_with_event' => true,
+            'published_at' => now(),
+        ]);
+    }
 }

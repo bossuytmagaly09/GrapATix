@@ -67,8 +67,40 @@
                         </div>
                     </div>
 
-                    <button class="w-full bg-[#00ED64] text-[#001E2B] py-4 rounded-[12px] font-bold text-[18px] hover:scale-[1.02] transition-transform flex items-center justify-center gap-3">
-                        Bestel Tickets
+                    <!-- Premium Quantity Selector -->
+                    <div class="space-y-3 pt-4 border-t border-white/5">
+                        <div class="flex justify-between items-center text-[14px]">
+                            <span class="text-[#98A1A8]">Aantal tickets</span>
+                            <span class="text-white font-bold">{{ $quantity }}</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-[#001E2B] rounded-xl border border-white/10 p-2">
+                            <button wire:click="decrementQuantity" class="size-9 rounded-lg bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold transition-colors disabled:opacity-30 disabled:pointer-events-none" {{ $quantity <= 1 ? 'disabled' : '' }}>
+                                -
+                            </button>
+                            <span class="text-[18px] font-medium px-4 text-white">{{ $quantity }}</span>
+                            <button wire:click="incrementQuantity" class="size-9 rounded-lg bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold transition-colors disabled:opacity-30 disabled:pointer-events-none" {{ $quantity >= 10 ? 'disabled' : '' }}>
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Price Display -->
+                    <div class="flex justify-between items-center border-t border-white/5 pt-4">
+                        <span class="text-[#98A1A8]">Totaal</span>
+                        <span class="text-[24px] font-black text-[#00ED64]">
+                            €{{ number_format(($event->price_cents * $quantity) / 100, 2, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <button wire:click="buyTickets" wire:loading.attr="disabled" class="w-full bg-[#00ED64] text-[#001E2B] py-4 rounded-[12px] font-bold text-[18px] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none">
+                        <span wire:loading.remove wire:target="buyTickets">Bestel Tickets</span>
+                        <span wire:loading wire:target="buyTickets" class="flex items-center gap-2">
+                            <svg class="animate-spin h-5 w-5 text-[#001E2B]" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Naar Stripe...
+                        </span>
                         <flux:icon icon="arrow-right" class="size-5" />
                     </button>
 
@@ -84,11 +116,26 @@
     <div class="lg:hidden fixed bottom-0 left-0 w-full p-4 bg-[#001E2B]/95 backdrop-blur-md border-t border-white/5 z-40">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <p class="text-[12px] text-[#98A1A8]">Vanaf</p>
-                <p class="text-[20px] font-bold text-white">€{{ number_format($event->price_cents / 100, 2, ',', '.') }}</p>
+                <p class="text-[11px] text-[#98A1A8]">Totaal ({{ $quantity }}x)</p>
+                <p class="text-[18px] font-bold text-[#00ED64]">€{{ number_format(($event->price_cents * $quantity) / 100, 2, ',', '.') }}</p>
             </div>
-            <button class="flex-1 bg-[#00ED64] text-[#001E2B] py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-                Tickets
+
+            <!-- Mobile Quantity Selector -->
+            <div class="flex items-center bg-[#081621] rounded-lg border border-white/10 p-1 shrink-0">
+                <button wire:click="decrementQuantity" class="w-8 h-8 rounded bg-white/5 text-white flex items-center justify-center font-bold disabled:opacity-30" {{ $quantity <= 1 ? 'disabled' : '' }}>-</button>
+                <span class="text-[15px] font-medium px-2.5 text-white">{{ $quantity }}</span>
+                <button wire:click="incrementQuantity" class="w-8 h-8 rounded bg-white/5 text-white flex items-center justify-center font-bold disabled:opacity-30" {{ $quantity >= 10 ? 'disabled' : '' }}>+</button>
+            </div>
+
+            <button wire:click="buyTickets" wire:loading.attr="disabled" class="flex-1 bg-[#00ED64] text-[#001E2B] py-3 rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50">
+                <span wire:loading.remove wire:target="buyTickets">Bestel</span>
+                <span wire:loading wire:target="buyTickets" class="flex items-center gap-1.5">
+                    <svg class="animate-spin h-4 w-4 text-[#001E2B]" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Stripe...
+                </span>
                 <flux:icon icon="arrow-right" class="size-4" />
             </button>
         </div>

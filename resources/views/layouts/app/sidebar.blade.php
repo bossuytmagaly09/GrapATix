@@ -23,6 +23,9 @@
                     <flux:sidebar.item icon="calendar" :href="route('events.index')" :current="request()->routeIs('events.index')" wire:navigate>
                         {{ __('Events') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="credit-card" :href="route('orders.index')" :current="request()->routeIs('orders.index')" wire:navigate>
+                        {{ __('Bestellingen') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
