@@ -34,6 +34,7 @@ Route::prefix('dashboard')
             ->group(function () {
                 Route::get('/', \App\Livewire\Dashboard\Master\Index::class)->name('dashboard.master');
                 Route::get('/organizations', \App\Livewire\Dashboard\Master\Organizations::class)->name('dashboard.master.organizations');
+                Route::get('/users', \App\Livewire\Dashboard\Master\Users::class)->name('dashboard.master.users');
             });
     });
 
