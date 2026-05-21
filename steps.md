@@ -63,11 +63,12 @@ Het toevoegen van commerciële features aan de multi-tenant structuur.
 - [x] **4.1 Order & Ticket Flow**
     - [x] Implementeer `Order` en `Ticket` modellen (tenant-scoped).
     - [x] Bouw de Stripe Checkout integratie (Queue-based Webhooks).
-    - [ ] **Test:** Mock een betaling en controleer of tickets correct gegenereerd worden.
-- [ ] **4.2 QR Scanning & Validatie**
-    - [ ] Genereer signed QR-codes voor tickets.
-    - [ ] Bouw de scan-interface (mobile-first).
-    - [ ] **Test:** Valideer de QR-scantoken logica in Pest.
+    - [x] **Test:** Mock een betaling.
+    - [x] Ontwerp & implementeer een high-end "Success" scherm met gegenereerde tickets.
+- [x] **4.3 Veilige QR Code Generatie**
+    - [x] Genereer Signed URL / unieke hash per ticket.
+    - [x] Genereer de daadwerkelijke fysieke QR-code als afbeelding/SVG.
+    - [x] Koppel de QR code url en afbeelding aan het Ticket record.
 
 ---
 

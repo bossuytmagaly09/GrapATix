@@ -70,16 +70,22 @@ class ProcessStripePaymentJob implements ShouldQueue
                     'payment_id' => $session->payment_intent ?? $session->id,
                 ]);
 
+                // Installeer de QrCodeService
+                $qrCodeService = app(\App\Services\QrCodeService::class);
+
                 // Creëer de tickets
                 foreach ($quantities as $ticketTypeId => $qty) {
                     for ($i = 0; $i < $qty; $i++) {
+                        $qrData = $qrCodeService->generateForTicket();
+
                         Ticket::create([
                             'organization_id' => $order->organization_id,
                             'event_id' => $order->event_id,
                             'user_id' => $order->user_id,
                             'ticket_type_id' => $ticketTypeId,
                             'order_id' => $order->id,
-                            'qr_code' => 'GTX-' . strtoupper(Str::random(12)),
+                            'qr_code' => $qrData['url'],
+                            'qr_image_path' => $qrData['path'],
                             'status' => 'paid',
                         ]);
                     }

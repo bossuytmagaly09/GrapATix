@@ -17,6 +17,14 @@ Route::get('/checkout/success', \App\Livewire\Checkout\Success::class)->name('ch
 
 Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
+Route::get('/tickets/scan/{token}', function ($token) {
+    // Hier komt later in Fase 4.2 de logica om het ticket te valideren/scannen
+    return "Scan endpoint voor ticket. Validatie logica komt hier.";
+})->name('tickets.scan')->middleware('signed');
+
+Route::get('/tickets/{ticket}', [\App\Http\Controllers\TicketController::class, 'show'])
+    ->name('tickets.show');
+
 // Auth Routes
 Route::get('/login', AuthComponent::class)->name('login');
 Route::get('/register', AuthComponent::class)->name('register');

@@ -74,21 +74,23 @@
                         <div class="space-y-3 max-h-[220px] overflow-y-auto pr-1 custom-scrollbar">
                             @if($order && $order->tickets)
                                 @foreach($order->tickets as $index => $ticket)
-                                    <div class="flex items-center justify-between bg-[#001E2B]/50 border border-white/5 rounded-xl p-4 group hover:border-[#00ED64]/30 transition-all">
-                                        <div class="flex items-center gap-3">
-                                            <div class="size-10 rounded-lg bg-[#00ED64]/10 text-[#00ED64] flex items-center justify-center font-bold">
-                                                {{ $index + 1 }}
+                                    <a href="{{ route('tickets.show', $ticket->id) }}" target="_blank" class="block">
+                                        <div class="flex items-center justify-between bg-[#001E2B]/50 border border-white/5 rounded-xl p-4 group hover:border-[#00ED64]/30 transition-all cursor-pointer">
+                                            <div class="flex items-center gap-3">
+                                                <div class="size-10 rounded-lg bg-[#00ED64]/10 text-[#00ED64] flex items-center justify-center font-bold">
+                                                    {{ $index + 1 }}
+                                                </div>
+                                                <div>
+                                                    <p class="text-[14px] font-bold text-white group-hover:text-[#00ED64] transition-colors">{{ $ticket->ticketType->name ?? 'Standaard Entry' }}</p>
+                                                    <p class="text-[11px] text-[#5C6C75] uppercase font-mono tracking-wider">GTX-{{ strtoupper(substr(md5($ticket->id), 0, 10)) }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="text-[14px] font-bold text-white">{{ $ticket->ticketType->name ?? 'Standaard Entry' }}</p>
-                                                <p class="text-[11px] text-[#5C6C75] uppercase font-mono tracking-wider">{{ $ticket->qr_code }}</p>
+                                            <div class="flex items-center gap-2 text-[#00ED64] text-[12px] font-bold">
+                                                <flux:icon icon="ticket" class="size-4" />
+                                                <span>Gereed</span>
                                             </div>
                                         </div>
-                                        <div class="flex items-center gap-2 text-[#00ED64] text-[12px] font-bold">
-                                            <flux:icon icon="ticket" class="size-4 animate-pulse" />
-                                            <span>Gereed</span>
-                                        </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             @endif
                         </div>

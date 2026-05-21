@@ -19,6 +19,7 @@ class Ticket extends Model
         'temporary_order_id',
         'order_id',
         'qr_code',
+        'qr_image_path',
         'status', // pending, paid, scanned
         'scanned_at',
         'scanned_by',
