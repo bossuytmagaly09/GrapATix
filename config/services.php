@@ -22,6 +22,12 @@ return [
         'key' => env('RESEND_API_KEY'),
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_PUBLISHABLE_KEY'),
+        'secret' => env('STRIPE_SECRET_KEY'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -35,9 +41,6 @@ return [
         ],
     ],
 
-    'stripe' => [
-        'key' => env('STRIPE_PUBLISHABLE_KEY'),
-        'secret' => env('STRIPE_SECRET_KEY'),
-    ],
+    // removed duplicate stripe config
 
 ];

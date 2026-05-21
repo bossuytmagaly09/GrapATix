@@ -48,39 +48,26 @@ class Success extends Component
 
             $totalQuantity = 0;
 
-            // Check if order is already paid to prevent double ticketing
-            if ($this->order->status !== 'paid') {
-                $this->order->update([
-                    'status' => 'paid',
-                    'payment_id' => $session->payment_intent ?? $session->id,
-                ]);
-
-                // Create tickets based on quantities map
-                foreach ($quantities as $ticketTypeId => $qty) {
-                    $totalQuantity += $qty;
-                    for ($i = 0; $i < $qty; $i++) {
-                        Ticket::create([
-                            'organization_id' => $this->order->organization_id,
-                            'event_id' => $this->order->event_id,
-                            'user_id' => $this->order->user_id,
-                            'ticket_type_id' => $ticketTypeId,
-                            'order_id' => $this->order->id,
-                            'qr_code' => 'GTX-' . strtoupper(Str::random(12)),
-                            'status' => 'paid',
-                        ]);
-                    }
-                }
+            // Initial check if order is already paid
+            if ($this->order->status === 'paid') {
+                $this->ticketCount = $this->order->tickets()->count();
             } else {
-                // Already paid, just count
-                foreach ($quantities as $qty) {
-                    $totalQuantity += $qty;
-                }
+                $this->ticketCount = 0;
             }
-
-            $this->ticketCount = $totalQuantity;
 
         } catch (\Exception $e) {
             $this->error = 'Er is een fout opgetreden bij het verifiëren van je betaling: ' . $e->getMessage();
+        }
+    }
+
+    public function checkStatus()
+    {
+        // Livewire re-hydrates the order automatically, but just to be sure we refresh it
+        if ($this->order) {
+            $this->order->refresh();
+            if ($this->order->status === 'paid') {
+                $this->ticketCount = $this->order->tickets()->count();
+            }
         }
     }
 

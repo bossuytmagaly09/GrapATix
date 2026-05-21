@@ -15,6 +15,8 @@ Route::get('/events/{event:slug}', EventsShow::class)->name('events.show');
 Route::get('/categories/{category:slug}', CategoriesShow::class)->name('categories.show');
 Route::get('/checkout/success', \App\Livewire\Checkout\Success::class)->name('checkout.success');
 
+Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle'])->name('stripe.webhook');
+
 // Auth Routes
 Route::get('/login', AuthComponent::class)->name('login');
 Route::get('/register', AuthComponent::class)->name('register');

@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             SetTeamUrlDefaults::class,
             \App\Http\Middleware\EnsureTenantContext::class,
         ]);
+        
+        $middleware->validateCsrfTokens(except: [
+            'stripe/webhook',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
