@@ -8,15 +8,7 @@
             <p class="text-white/60 text-sm mt-1">Algemeen beheer en transactie-overzicht van het platform.</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('dashboard.master') }}" class="px-4 py-2 bg-[#00ED64] text-[#001E2B] rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-[#00ED64]/10 hover:scale-105">
-                Dashboard
-            </a>
-            <a href="{{ route('dashboard.master.organizations') }}" class="px-4 py-2 bg-[#081621] border border-white/10 hover:border-[#00ED64]/50 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-white hover:scale-105">
-                Organisaties
-            </a>
-            <a href="{{ route('dashboard.master.users') }}" class="px-4 py-2 bg-[#081621] border border-white/10 hover:border-[#00ED64]/50 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-white hover:scale-105">
-                Gebruikers
-            </a>
+
         </div>
     </div>
 
@@ -99,9 +91,12 @@
         <div class="px-6 py-5 border-b border-white/5 bg-[#001E2B]/50 flex justify-between items-center">
             <div>
                 <h2 class="font-bold text-lg text-white">Platform Transactiegeschiedenis</h2>
-                <p class="text-white/50 text-xs mt-0.5">Recente ticketbetalingen afgehandeld via Stripe Checkout.</p>
+                <p class="text-white/50 text-xs mt-0.5">Laatste 5 ticketbetalingen afgehandeld via Stripe Checkout.</p>
             </div>
-            <span class="bg-[#00ED64]/10 text-[#00ED64] text-[10px] font-bold px-3 py-1 rounded-full uppercase border border-[#00ED64]/20 tracking-wider">Live Payments</span>
+            <div class="flex gap-3 items-center">
+                <span class="bg-[#00ED64]/10 text-[#00ED64] text-[10px] font-bold px-3 py-1 rounded-full uppercase border border-[#00ED64]/20 tracking-wider hidden sm:inline-block">Live Payments</span>
+                <a href="{{ route('dashboard.master.orders') }}" class="px-4 py-1.5 bg-[#00ED64]/10 hover:bg-[#00ED64] text-[#00ED64] hover:text-[#001E2B] border border-[#00ED64]/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">Bekijk Alles</a>
+            </div>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left">

@@ -69,13 +69,7 @@ class Index extends Component
             ],
         ]);
 
-        $organization = Organization::first() ?? Organization::create([
-            'name' => 'Default Organization',
-            'subdomain' => 'default',
-        ]);
-
         $data = [
-            'organization_id' => $organization->id,
             'title' => $this->title,
             'slug' => $slug,
             'description' => $this->description,

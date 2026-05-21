@@ -16,6 +16,7 @@ class Index extends Component
         $orders = Order::withoutGlobalScopes()
             ->with(['event', 'organization', 'user', 'tickets'])
             ->orderBy('created_at', 'desc')
+            ->take(5)
             ->get();
 
         $total_revenue_cents = Order::withoutGlobalScopes()

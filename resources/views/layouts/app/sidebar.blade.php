@@ -3,29 +3,41 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <body class="min-h-screen bg-[#081621] text-white selection:bg-[#00ED64] selection:text-[#001E2B]">
+        <flux:sidebar sticky collapsible="mobile" class="border-e border-white/5 bg-[#001E2B]">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
-                <flux:sidebar.collapse class="lg:hidden" />
+                <flux:sidebar.collapse class="lg:hidden text-white/50 hover:text-white" />
             </flux:sidebar.header>
 
-            <livewire:team-switcher />
-
-            @cannot('access-master-dashboard')
+        @cannot('access-master-dashboard')
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                <flux:sidebar.group :heading="__('Platform')" class="grid text-white/50">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>
+
+                    @if(auth()->user()->organization && auth()->user()->organization->uses_categories)
+                    <flux:sidebar.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('categories.index') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                         {{ __('Categories') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="calendar" :href="route('events.index')" :current="request()->routeIs('events.index')" wire:navigate>
+                    @endif
+
+                    <flux:sidebar.item icon="calendar" :href="route('events.index')" :current="request()->routeIs('events.index')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('events.index') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                         {{ __('Events') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="credit-card" :href="route('orders.index')" :current="request()->routeIs('orders.index')" wire:navigate>
+                    <flux:sidebar.item icon="credit-card" :href="route('orders.index')" :current="request()->routeIs('orders.index')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('orders.index') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                         {{ __('Bestellingen') }}
+                    </flux:sidebar.item>
+                    
+                    <flux:sidebar.item icon="cog-8-tooth" :href="route('tenant.settings')" :current="request()->routeIs('tenant.settings')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('tenant.settings') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
+                        {{ __('Instellingen') }}
+                    </flux:sidebar.item>
+                    
+                    <div class="my-2 border-t border-white/10"></div>
+                    
+                    <flux:sidebar.item icon="globe-alt" :href="route('home')" target="_blank" class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 text-white/80">
+                        Naar de Site
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
@@ -33,15 +45,30 @@
 
             @can('access-master-dashboard')
                 <flux:sidebar.nav>
-                    <flux:sidebar.group heading="Platform Beheer (Master)" class="grid">
-                        <flux:sidebar.item icon="shield-check" :href="route('dashboard.master')" :current="request()->routeIs('dashboard.master')" wire:navigate>
+                    <flux:sidebar.group heading="Platform Beheer" class="grid text-white/50">
+                        <flux:sidebar.item icon="shield-check" :href="route('dashboard.master')" :current="request()->routeIs('dashboard.master')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard.master') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                             Master Panel
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="building-office-2" :href="route('dashboard.master.organizations')" :current="request()->routeIs('dashboard.master.organizations') || request()->routeIs('dashboard.master.organizations.*')" wire:navigate>
+                        <flux:sidebar.item icon="building-office-2" :href="route('dashboard.master.organizations')" :current="request()->routeIs('dashboard.master.organizations') || request()->routeIs('dashboard.master.organizations.*')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard.master.organizations') || request()->routeIs('dashboard.master.organizations.*') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                             Organisaties
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="users" :href="route('dashboard.master.users')" :current="request()->routeIs('dashboard.master.users') || request()->routeIs('dashboard.master.users.*')" wire:navigate>
+                        <flux:sidebar.item icon="users" :href="route('dashboard.master.users')" :current="request()->routeIs('dashboard.master.users') || request()->routeIs('dashboard.master.users.*')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard.master.users') || request()->routeIs('dashboard.master.users.*') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                             Gebruikers
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="credit-card" :href="route('dashboard.master.orders')" :current="request()->routeIs('dashboard.master.orders')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard.master.orders') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
+                            Bestellingen
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="banknotes" :href="route('dashboard.master.finances')" :current="request()->routeIs('dashboard.master.finances')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard.master.finances') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
+                            Financiën
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="cog-8-tooth" :href="route('dashboard.master.settings')" :current="request()->routeIs('dashboard.master.settings')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('dashboard.master.settings') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
+                            Instellingen
+                        </flux:sidebar.item>
+                        
+                        <div class="my-2 border-t border-white/10"></div>
+                        
+                        <flux:sidebar.item icon="globe-alt" :href="route('home')" target="_blank" class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 text-white/80">
+                            Naar de Site
                         </flux:sidebar.item>
                     </flux:sidebar.group>
                 </flux:sidebar.nav>
@@ -49,17 +76,7 @@
 
             <flux:spacer />
 
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
-
-            <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
+            <x-desktop-user-menu class="hidden lg:block text-white" :name="auth()->user()->name" />
         </flux:sidebar>
 
         <!-- Mobile User Menu -->

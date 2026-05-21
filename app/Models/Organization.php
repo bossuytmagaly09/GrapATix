@@ -12,11 +12,16 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
+        'uses_categories',
         'slug',
         'subdomain',
         'logo',
         'favicon',
         'background_image',
+    ];
+
+    protected $casts = [
+        'uses_categories' => 'boolean',
     ];
 
     /**
@@ -33,5 +38,21 @@ class Organization extends Model
     public function users(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Get all orders belonging to this organization.
+     */
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get all tickets belonging to this organization.
+     */
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 }

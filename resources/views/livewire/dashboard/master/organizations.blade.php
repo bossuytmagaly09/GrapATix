@@ -8,15 +8,7 @@
             <p class="text-white/60 text-sm mt-1">Registreer nieuwe tenants, pas subdomeinen aan en beheer platform-organisaties.</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('dashboard.master') }}" class="px-4 py-2 bg-[#081621] border border-white/10 hover:border-[#00ED64]/50 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-white hover:scale-105">
-                Dashboard
-            </a>
-            <a href="{{ route('dashboard.master.organizations') }}" class="px-4 py-2 bg-[#00ED64] text-[#001E2B] rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-[#00ED64]/10 hover:scale-105">
-                Organisaties
-            </a>
-            <a href="{{ route('dashboard.master.users') }}" class="px-4 py-2 bg-[#081621] border border-white/10 hover:border-[#00ED64]/50 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-white hover:scale-105">
-                Gebruikers
-            </a>
+
             <button wire:click="create" class="px-4 py-2 bg-[#00ED64]/10 hover:bg-[#00ED64] text-[#00ED64] hover:text-[#001E2B] border border-[#00ED64]/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 flex items-center gap-1.5 ml-2">
                 <flux:icon icon="plus" class="size-4" />
                 <span>Nieuw</span>

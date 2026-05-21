@@ -23,10 +23,12 @@ Route::get('/register', AuthComponent::class)->name('register');
 Route::prefix('dashboard')
     ->middleware(['auth', 'verified'])
     ->group(function () {
-        Route::view('/', 'dashboard')->name('dashboard');
+        Route::get('/', \App\Livewire\Dashboard\Index::class)->name('dashboard');
         Route::get('/categories', CategoriesIndex::class)->name('categories.index');
         Route::get('/events', EventsIndex::class)->name('events.index');
+        Route::get('/events/{event}/tickets', \App\Livewire\Events\TicketTypes::class)->name('events.tickets');
         Route::get('/orders', \App\Livewire\Dashboard\Orders::class)->name('orders.index');
+        Route::get('/settings', \App\Livewire\Dashboard\TenantSettings::class)->name('tenant.settings');
         
         // Master Admin Routes (Platform Beheer)
         Route::middleware(['can:access-master-dashboard'])
@@ -35,6 +37,9 @@ Route::prefix('dashboard')
                 Route::get('/', \App\Livewire\Dashboard\Master\Index::class)->name('dashboard.master');
                 Route::get('/organizations', \App\Livewire\Dashboard\Master\Organizations::class)->name('dashboard.master.organizations');
                 Route::get('/users', \App\Livewire\Dashboard\Master\Users::class)->name('dashboard.master.users');
+                Route::get('/orders', \App\Livewire\Dashboard\Master\Orders::class)->name('dashboard.master.orders');
+                Route::get('/finances', \App\Livewire\Dashboard\Master\Finances::class)->name('dashboard.master.finances');
+                Route::get('/settings', \App\Livewire\Dashboard\Master\Settings::class)->name('dashboard.master.settings');
             });
     });
 

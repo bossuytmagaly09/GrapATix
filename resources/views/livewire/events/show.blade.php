@@ -27,7 +27,13 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <flux:icon icon="ticket" class="size-5 text-[#00ED64]" />
-                        <span class="text-white font-bold">€{{ number_format($event->price_cents / 100, 2, ',', '.') }}</span>
+                        <span class="text-white font-bold">
+                            @if(count($ticketTypes) > 0)
+                                Vanaf €{{ number_format($ticketTypes->min('price_cents') / 100, 2, ',', '.') }}
+                            @else
+                                Gratis
+                            @endif
+                        </span>
                     </div>
                 </div>
             </div>
@@ -53,46 +59,86 @@
                 </div>
             </div>
 
-            <!-- Right: Sidebar / Sticky CTA (Desktop) -->
-            <div class="hidden lg:block lg:col-span-4">
-                <div class="sticky top-32 p-8 rounded-[24px] bg-[#081621] border border-white/5 space-y-8">
+            <!-- Right: Sidebar / Tickets -->
+            <div class="col-span-12 lg:col-span-4">
+                <div class="sticky top-32 p-8 rounded-[24px] bg-[#081621] border border-white/5 space-y-8 mb-24 lg:mb-0">
+                    @php
+                        $globalRemaining = $ticketTypes->sum(function($type) {
+                            return max(0, $type->available_quantity - $type->tickets_count);
+                        });
+                    @endphp
                     <div>
                         <h4 class="text-[14px] uppercase tracking-widest text-[#98A1A8] mb-2">Status</h4>
-                        <div class="flex items-center gap-2 text-[#00ED64] font-bold">
-                            <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ED64] opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-[#00ED64]"></span>
-                            </span>
-                            Tickets Beschikbaar
+                        <div class="flex items-center gap-2 {{ $globalRemaining > 0 ? 'text-[#00ED64]' : 'text-red-500' }} font-bold">
+                            @if($globalRemaining > 0)
+                                <span class="relative flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ED64] opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-[#00ED64]"></span>
+                                </span>
+                                Nog {{ $globalRemaining }} Tickets Beschikbaar
+                            @else
+                                <span class="relative flex h-3 w-3">
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                </span>
+                                Volledig Uitverkocht
+                            @endif
                         </div>
                     </div>
 
-                    <!-- Premium Quantity Selector -->
-                    <div class="space-y-3 pt-4 border-t border-white/5">
-                        <div class="flex justify-between items-center text-[14px]">
-                            <span class="text-[#98A1A8]">Aantal tickets</span>
-                            <span class="text-white font-bold">{{ $quantity }}</span>
-                        </div>
-                        <div class="flex items-center justify-between bg-[#001E2B] rounded-xl border border-white/10 p-2">
-                            <button wire:click="decrementQuantity" class="size-9 rounded-lg bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold transition-colors disabled:opacity-30 disabled:pointer-events-none" {{ $quantity <= 1 ? 'disabled' : '' }}>
-                                -
-                            </button>
-                            <span class="text-[18px] font-medium px-4 text-white">{{ $quantity }}</span>
-                            <button wire:click="incrementQuantity" class="size-9 rounded-lg bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold transition-colors disabled:opacity-30 disabled:pointer-events-none" {{ $quantity >= 10 ? 'disabled' : '' }}>
-                                +
-                            </button>
-                        </div>
+                    <!-- Ticket Types Loop -->
+                    <div class="space-y-4 pt-4 border-t border-white/5">
+                        @php
+                            $totalCents = 0;
+                            $totalQty = 0;
+                            foreach($ticketTypes as $type) {
+                                $q = $quantities[$type->id] ?? 0;
+                                $totalCents += $type->price_cents * $q;
+                                $totalQty += $q;
+                            }
+                        @endphp
+                        
+                        @forelse($ticketTypes as $type)
+                            @php
+                                $remaining = max(0, $type->available_quantity - $type->tickets_count);
+                            @endphp
+                            <div class="flex flex-col gap-2">
+                                <div class="flex justify-between items-center text-[14px]">
+                                    <div class="flex flex-col">
+                                        <span class="text-[#98A1A8] font-semibold">{{ $type->name }}</span>
+                                        <span class="text-[12px] {{ $remaining <= 20 ? 'text-orange-400 font-bold' : 'text-[#5C6C75]' }}">
+                                            @if($remaining > 0)
+                                                Nog {{ $remaining }} beschikbaar
+                                            @else
+                                                <span class="text-red-500 font-bold">Uitverkocht</span>
+                                            @endif
+                                        </span>
+                                    </div>
+                                    <span class="text-white font-bold">€{{ number_format($type->price_cents / 100, 2, ',', '.') }}</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-[#001E2B] rounded-xl border border-white/10 p-2 {{ $remaining === 0 ? 'opacity-50 pointer-events-none' : '' }}">
+                                    <button wire:click="decrementQuantity({{ $type->id }})" class="size-9 rounded-lg bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold transition-colors disabled:opacity-30 disabled:pointer-events-none" {{ ($quantities[$type->id] ?? 0) <= 0 ? 'disabled' : '' }}>
+                                        -
+                                    </button>
+                                    <span class="text-[18px] font-medium px-4 text-white">{{ $quantities[$type->id] ?? 0 }}</span>
+                                    <button wire:click="incrementQuantity({{ $type->id }})" class="size-9 rounded-lg bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold transition-colors disabled:opacity-30 disabled:pointer-events-none" {{ ($quantities[$type->id] ?? 0) >= 10 || ($quantities[$type->id] ?? 0) >= $remaining ? 'disabled' : '' }}>
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-white/50 text-sm">Geen tickets beschikbaar op dit moment.</p>
+                        @endforelse
                     </div>
 
                     <!-- Dynamic Price Display -->
                     <div class="flex justify-between items-center border-t border-white/5 pt-4">
                         <span class="text-[#98A1A8]">Totaal</span>
                         <span class="text-[24px] font-black text-[#00ED64]">
-                            €{{ number_format(($event->price_cents * $quantity) / 100, 2, ',', '.') }}
+                            €{{ number_format($totalCents / 100, 2, ',', '.') }}
                         </span>
                     </div>
 
-                    <button wire:click="buyTickets" wire:loading.attr="disabled" class="w-full bg-[#00ED64] text-[#001E2B] py-4 rounded-[12px] font-bold text-[18px] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none">
+                    <button wire:click="buyTickets" wire:loading.attr="disabled" class="w-full bg-[#00ED64] text-[#001E2B] py-4 rounded-[12px] font-bold text-[18px] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none" {{ $totalQty === 0 ? 'disabled' : '' }}>
                         <span wire:loading.remove wire:target="buyTickets">Bestel Tickets</span>
                         <span wire:loading wire:target="buyTickets" class="flex items-center gap-2">
                             <svg class="animate-spin h-5 w-5 text-[#001E2B]" fill="none" viewBox="0 0 24 24">
@@ -116,18 +162,11 @@
     <div class="lg:hidden fixed bottom-0 left-0 w-full p-4 bg-[#001E2B]/95 backdrop-blur-md border-t border-white/5 z-40">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <p class="text-[11px] text-[#98A1A8]">Totaal ({{ $quantity }}x)</p>
-                <p class="text-[18px] font-bold text-[#00ED64]">€{{ number_format(($event->price_cents * $quantity) / 100, 2, ',', '.') }}</p>
+                <p class="text-[11px] text-[#98A1A8]">Totaal ({{ $totalQty }}x)</p>
+                <p class="text-[18px] font-bold text-[#00ED64]">€{{ number_format($totalCents / 100, 2, ',', '.') }}</p>
             </div>
 
-            <!-- Mobile Quantity Selector -->
-            <div class="flex items-center bg-[#081621] rounded-lg border border-white/10 p-1 shrink-0">
-                <button wire:click="decrementQuantity" class="w-8 h-8 rounded bg-white/5 text-white flex items-center justify-center font-bold disabled:opacity-30" {{ $quantity <= 1 ? 'disabled' : '' }}>-</button>
-                <span class="text-[15px] font-medium px-2.5 text-white">{{ $quantity }}</span>
-                <button wire:click="incrementQuantity" class="w-8 h-8 rounded bg-white/5 text-white flex items-center justify-center font-bold disabled:opacity-30" {{ $quantity >= 10 ? 'disabled' : '' }}>+</button>
-            </div>
-
-            <button wire:click="buyTickets" wire:loading.attr="disabled" class="flex-1 bg-[#00ED64] text-[#001E2B] py-3 rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50">
+            <button wire:click="buyTickets" wire:loading.attr="disabled" class="flex-1 bg-[#00ED64] text-[#001E2B] py-3 rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50" {{ $totalQty === 0 ? 'disabled' : '' }}>
                 <span wire:loading.remove wire:target="buyTickets">Bestel</span>
                 <span wire:loading wire:target="buyTickets" class="flex items-center gap-1.5">
                     <svg class="animate-spin h-4 w-4 text-[#001E2B]" fill="none" viewBox="0 0 24 24">

@@ -30,7 +30,8 @@ class Success extends Component
             $session = \Stripe\Checkout\Session::retrieve($sessionId);
 
             $orderId = $session->metadata->order_id ?? null;
-            $quantity = (int) ($session->metadata->quantity ?? 1);
+            $ticketQuantitiesJson = $session->metadata->ticket_quantities ?? '{}';
+            $quantities = json_decode($ticketQuantitiesJson, true) ?? [];
 
             if (! $orderId) {
                 $this->error = 'Bestellings-ID ontbreekt in de Stripe payload.';
@@ -45,6 +46,8 @@ class Success extends Component
                 return;
             }
 
+            $totalQuantity = 0;
+
             // Check if order is already paid to prevent double ticketing
             if ($this->order->status !== 'paid') {
                 $this->order->update([
@@ -52,23 +55,29 @@ class Success extends Component
                     'payment_id' => $session->payment_intent ?? $session->id,
                 ]);
 
-                // Create tickets
-                $defaultTicketType = $this->order->event->getDefaultTicketType();
-
-                for ($i = 0; $i < $quantity; $i++) {
-                    Ticket::create([
-                        'organization_id' => $this->order->organization_id,
-                        'event_id' => $this->order->event_id,
-                        'user_id' => $this->order->user_id,
-                        'ticket_type_id' => $defaultTicketType->id,
-                        'order_id' => $this->order->id,
-                        'qr_code' => 'GTX-' . strtoupper(Str::random(12)),
-                        'status' => 'paid',
-                    ]);
+                // Create tickets based on quantities map
+                foreach ($quantities as $ticketTypeId => $qty) {
+                    $totalQuantity += $qty;
+                    for ($i = 0; $i < $qty; $i++) {
+                        Ticket::create([
+                            'organization_id' => $this->order->organization_id,
+                            'event_id' => $this->order->event_id,
+                            'user_id' => $this->order->user_id,
+                            'ticket_type_id' => $ticketTypeId,
+                            'order_id' => $this->order->id,
+                            'qr_code' => 'GTX-' . strtoupper(Str::random(12)),
+                            'status' => 'paid',
+                        ]);
+                    }
+                }
+            } else {
+                // Already paid, just count
+                foreach ($quantities as $qty) {
+                    $totalQuantity += $qty;
                 }
             }
 
-            $this->ticketCount = $quantity;
+            $this->ticketCount = $totalQuantity;
 
         } catch (\Exception $e) {
             $this->error = 'Er is een fout opgetreden bij het verifiëren van je betaling: ' . $e->getMessage();
