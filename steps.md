@@ -65,6 +65,11 @@ Het toevoegen van commerciële features aan de multi-tenant structuur.
     - [x] Bouw de Stripe Checkout integratie (Queue-based Webhooks).
     - [x] **Test:** Mock een betaling.
     - [x] Ontwerp & implementeer een high-end "Success" scherm met gegenereerde tickets.
+- [x] **4.2 Real-time Portier Scanner**
+    - [x] Bouw signed URL ticket validatie backend (`/tickets/scan/{token}`).
+    - [x] Bouw mobile-first dashboard scanner page met `html5-qrcode`.
+    - [x] Implementeer Web Audio beeps (hoge beep op succes, lage buzz op waarschuwing/fout).
+    - [x] Bouw full-screen overlay feedback en realtime statistieken.
 - [x] **4.3 Veilige QR Code Generatie**
     - [x] Genereer Signed URL / unieke hash per ticket.
     - [x] Genereer de daadwerkelijke fysieke QR-code als afbeelding/SVG.

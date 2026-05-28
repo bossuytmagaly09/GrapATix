@@ -44,6 +44,7 @@
                             €{{ number_format($event->price_cents / 100, 2, ',', '.') }}
                         </flux:table.cell>
                         <flux:table.cell align="end">
+                            <flux:button variant="ghost" icon="camera" href="{{ route('events.scanner', $event) }}" title="Scanner Openen" />
                             <flux:button variant="ghost" icon="ticket" href="{{ route('events.tickets', $event) }}" title="Tickets Beheren" />
                             <flux:button variant="ghost" icon="pencil-square" wire:click="edit({{ $event->id }})" title="Bewerken" />
                             <flux:button variant="ghost" icon="trash" wire:click="delete({{ $event->id }})" wire:confirm="{{ __('Are you sure you want to delete this event?') }}" title="Verwijderen" />
