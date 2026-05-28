@@ -73,9 +73,11 @@ Het toevoegen van commerciële features aan de multi-tenant structuur.
 ---
 
 ## 🚀 Fase 5: Optimalisatie & Finale Check
-- [ ] **5.1 Queues & Mails**
-    - [ ] Zet async mailings op voor orderbevestigingen.
-    - [ ] **Test:** Valideer dat mails in de queue terechtkomen.
+- [x] **5.1 Queues & Mails**
+    - [x] Bouw `TicketPurchaseConfirmation` Mailable met event info en QR bijlagen.
+    - [x] Bouw `SendTicketEmailJob` (queue-based, 3 retries).
+    - [x] Koppel aan `ProcessStripePaymentJob` — mail wordt automatisch verstuurd na ticketcreatie.
+    - [x] **Test:** Valideer via Mailtrap sandbox dat mails correct aankomen.
 - [ ] **5.2 Volledige Test Suite**
     - [ ] Draai alle tests (`php artisan test`).
     - [ ] Handmatige security audit op tenant-isolatie.

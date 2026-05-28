@@ -92,6 +92,11 @@ class ProcessStripePaymentJob implements ShouldQueue
                 }
 
                 Log::info("Stripe Webhook Job succes: Tickets aangemaakt voor Order {$orderId}.");
+
+                // Verstuur de bevestigingsmail met QR tickets
+                $email = $session->customer_details->email ?? null;
+                $name = $session->customer_details->name ?? null;
+                SendTicketEmailJob::dispatch($order->id, $email, $name);
             });
 
         } catch (\Exception $e) {
