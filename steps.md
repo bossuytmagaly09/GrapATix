@@ -70,6 +70,7 @@ Het toevoegen van commerciële features aan de multi-tenant structuur.
     - [x] Bouw mobile-first dashboard scanner page met `html5-qrcode`.
     - [x] Implementeer Web Audio beeps (hoge beep op succes, lage buzz op waarschuwing/fout).
     - [x] Bouw full-screen overlay feedback en realtime statistieken.
+    - [x] Ontwerp en implementeer `ScanLog` model en `scan_logs` audit database logging (succes, duplicate en invalid scanpogingen).
 - [x] **4.3 Veilige QR Code Generatie**
     - [x] Genereer Signed URL / unieke hash per ticket.
     - [x] Genereer de daadwerkelijke fysieke QR-code als afbeelding/SVG.

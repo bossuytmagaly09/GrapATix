@@ -46,6 +46,16 @@ Route::get('/tickets/scan/{token}', function ($token) {
             $event->title ?? 'ander evenement',
             $scannerEvent?->title ?? 'een ander evenement'
         );
+
+        // Audit Log: Mislukte scanpoging wegens verkeerd evenement
+        \App\Models\ScanLog::create([
+            'ticket_id' => $ticket->id,
+            'scanned_by' => auth()->id() ?? null,
+            'scanned_at' => now(),
+            'status' => 'invalid',
+            'device_info' => substr(request()->header('User-Agent'), 0, 500)
+        ]);
+
         if (request()->wantsJson() || request()->ajax()) {
             return response()->json([
                 'status' => 'error',
@@ -67,6 +77,15 @@ Route::get('/tickets/scan/{token}', function ($token) {
         $scannedTime = $ticket->scanned_at->timezone('Europe/Brussels')->format('H:i:s (d M Y)');
         $scannedByName = $ticket->scannedBy?->name ?? 'onbekende portier';
         $message = "Dit ticket is AL GEBRUIKT! Gescand om {$scannedTime} door {$scannedByName}.";
+
+        // Audit Log: Mislukte scanpoging wegens al gescand ticket (dubbele scan audit)
+        \App\Models\ScanLog::create([
+            'ticket_id' => $ticket->id,
+            'scanned_by' => auth()->id() ?? null,
+            'scanned_at' => now(),
+            'status' => 'duplicate',
+            'device_info' => substr(request()->header('User-Agent'), 0, 500)
+        ]);
 
         if (request()->wantsJson() || request()->ajax()) {
             return response()->json([
@@ -91,6 +110,15 @@ Route::get('/tickets/scan/{token}', function ($token) {
         'status' => 'scanned',
         'scanned_at' => now(),
         'scanned_by' => auth()->id() ?? null
+    ]);
+
+    // Audit Log: Succesvolle scan registratie
+    \App\Models\ScanLog::create([
+        'ticket_id' => $ticket->id,
+        'scanned_by' => auth()->id() ?? null,
+        'scanned_at' => $ticket->scanned_at,
+        'status' => 'success',
+        'device_info' => substr(request()->header('User-Agent'), 0, 500)
     ]);
 
     $customerName = $ticket->user->name ?? 'Gast/Klant';

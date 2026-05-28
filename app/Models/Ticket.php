@@ -53,4 +53,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class, 'scanned_by');
     }
+
+    public function scanLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ScanLog::class);
+    }
 }
