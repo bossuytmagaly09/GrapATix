@@ -71,6 +71,11 @@ class Event extends Model implements HasMedia
         return $this->hasMany(TicketType::class);
     }
 
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
     public function getDefaultTicketType()
     {
         return $this->ticketTypes()->firstOrCreate([
