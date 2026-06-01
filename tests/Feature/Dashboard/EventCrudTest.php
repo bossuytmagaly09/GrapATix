@@ -23,8 +23,9 @@ test('authenticated users can see events', function () {
 test('events can be created with price conversion', function () {
     $user = User::factory()->create();
     $category = Category::factory()->create();
-    // We maken een organisatie aan omdat de database deze vereist
-    Organization::create(['name' => 'Test Org', 'subdomain' => 'test']);
+    
+    // We simuleren de middleware door de actieve organisatie van de user in de sessie te plaatsen
+    session(['active_organization_id' => $user->organization_id]);
 
     Livewire::actingAs($user)
         ->test(EventsIndex::class)

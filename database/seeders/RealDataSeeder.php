@@ -243,7 +243,7 @@ class RealDataSeeder extends Seeder
             );
 
             foreach ($orgInfo['events'] as $eventInfo) {
-                Event::updateOrCreate(
+                $event = Event::updateOrCreate(
                     ['slug' => Str::slug($eventInfo['title'])],
                     [
                         'organization_id' => $org->id,
@@ -258,6 +258,304 @@ class RealDataSeeder extends Seeder
                         'published_at' => now(),
                     ]
                 );
+
+                // Clear existing ticket types first to avoid duplicates
+                \App\Models\TicketType::where('event_id', $event->id)->delete();
+
+                // Seed highly realistic TicketTypes based on the organization's subdomain
+                if ($orgInfo['subdomain'] === 'tomorrowland') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Dagticket',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 15000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Weekendpas (Full Madness)',
+                        'price_cents' => $event->price_cents * 2.5,
+                        'available_quantity' => 20000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Camping (DreamVille) Upgrade',
+                        'price_cents' => 8000,
+                        'available_quantity' => 10000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'VIP/Comfort Ticket',
+                        'price_cents' => $event->price_cents * 3.5,
+                        'available_quantity' => 2000,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'livenation') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Golden Circle (vooraan staan)',
+                        'price_cents' => $event->price_cents * 1.6,
+                        'available_quantity' => 2500,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Reguliere staanplaatsen',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 12000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Genummerde zitplaatsen',
+                        'price_cents' => $event->price_cents * 1.15,
+                        'available_quantity' => 5000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Rolstoelplaatsen',
+                        'price_cents' => $event->price_cents * 0.85,
+                        'available_quantity' => 100,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'kbvb') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Regulier (Vak/Rij/Stoel)',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 35000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Kindertarief',
+                        'price_cents' => $event->price_cents * 0.45,
+                        'available_quantity' => 5000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Familieticket (groepsverband)',
+                        'price_cents' => $event->price_cents * 0.75,
+                        'available_quantity' => 5000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Business Seat',
+                        'price_cents' => 15000,
+                        'available_quantity' => 1200,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'flandersclassics') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'VIP-dorp langs het parcours',
+                        'price_cents' => 25000,
+                        'available_quantity' => 500,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Shuttledienst (Busticket)',
+                        'price_cents' => 1500,
+                        'available_quantity' => 2000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Toegang tot de aankomstzone',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 5000,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'viernulvier') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Standaardtarief',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 300,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Studententarief (-26 jaar)',
+                        'price_cents' => $event->price_cents * 0.6,
+                        'available_quantity' => 100,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Reductietarief (werkzoekenden)',
+                        'price_cents' => $event->price_cents * 0.5,
+                        'available_quantity' => 50,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Groepsreservering (vanaf 10 pers.)',
+                        'price_cents' => $event->price_cents * 0.75,
+                        'available_quantity' => 150,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'kinepolis') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Cosy Seats (luxe zetels)',
+                        'price_cents' => $event->price_cents + 400,
+                        'available_quantity' => 80,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Standaard Film Ticket',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 450,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Cosy Seat + Popcorn & Drank Voucher',
+                        'price_cents' => $event->price_cents + 1000,
+                        'available_quantity' => 150,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'facts') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Early Bird ticket',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 3000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Fast Lane Access pass',
+                        'price_cents' => $event->price_cents * 2.0,
+                        'available_quantity' => 1000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Fotoshoot & Handtekening Add-on',
+                        'price_cents' => 7500,
+                        'available_quantity' => 500,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'febiac') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'B2B Professional Ticket (Bedrijven)',
+                        'price_cents' => 4500,
+                        'available_quantity' => 15000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'B2C Regulier Ticket (Particulieren)',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 50000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Tijdslot Ticket (Inkom 10:00 - 13:00)',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 10000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Tijdslot Ticket (Inkom 13:00 - 17:00)',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 10000,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'boektopia') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Combiticket (Inkom + Boekenbon van €10)',
+                        'price_cents' => 1800,
+                        'available_quantity' => 5000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Signeersessie Tijdslot (Gratis Reservering)',
+                        'price_cents' => 0,
+                        'available_quantity' => 150,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Scholentarief (Klassen in groepsverband)',
+                        'price_cents' => 500,
+                        'available_quantity' => 3000,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'conceptum') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Standaard Ingangsticket',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 4000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Inkom + Workshop Add-on (Max 15 personen per sessie)',
+                        'price_cents' => 3500,
+                        'available_quantity' => 150,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Meerdagenpas (Passe-partout weekend)',
+                        'price_cents' => 2500,
+                        'available_quantity' => 1000,
+                        'is_published' => true,
+                    ]);
+                } elseif ($orgInfo['subdomain'] === 'zoutegrandprix') {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Bezoeker ticket (Alleen kijken)',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 15000,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Deelnemer ticket (Auto + 1 Bestuurder)',
+                        'price_cents' => 12000,
+                        'available_quantity' => 350,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'VIP/Paddock Pas (Exclusieve toegang)',
+                        'price_cents' => 25000,
+                        'available_quantity' => 1200,
+                        'is_published' => true,
+                    ]);
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Rally-inschrijving (Team incl. catering & roadbook)',
+                        'price_cents' => 45000,
+                        'available_quantity' => 150,
+                        'is_published' => true,
+                    ]);
+                } else {
+                    \App\Models\TicketType::create([
+                        'event_id' => $event->id,
+                        'name' => 'Standaard ticket',
+                        'price_cents' => $event->price_cents,
+                        'available_quantity' => 500,
+                        'is_published' => true,
+                    ]);
+                }
             }
         }
     }

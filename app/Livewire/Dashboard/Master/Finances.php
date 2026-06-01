@@ -13,7 +13,7 @@ class Finances extends Component
         // Haal alle organisaties op met de som van hun orders
         // Dit is een simpele implementatie. Voor echt gebruik wil je een platform fee percentage toepassen.
         $organizations = Organization::with(['orders' => function($query) {
-                $query->where('status', 'paid');
+                $query->withoutGlobalScopes()->where('status', 'paid');
             }])
             ->get()
             ->map(function ($org) {

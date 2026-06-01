@@ -28,11 +28,11 @@ Het omzetten van de `getatix design` naar dynamische pagina's voor onze eerste g
 - [x] **2.1 Layout & Assets**
     - [x] Integreer CSS/JS uit de design folder via Vite.
     - [x] Maak de `AppLayout` en herbruikbare componenten (Nav, Footer).
-- [ ] **2.2 Dynamische Pagina's**
-    - [x] Maak de `Home` pagina dynamisch met de laatste artikelen.
+- [x] **2.2 Dynamische Pagina's**
+    - [x] Maak de `Home` pagina dynamisch met echte database evenementen en een Ticketmaster-stijl hero banner.
     - [x] Bouw de `Category` overzichtspagina met filters.
     - [x] Bouw de `Detail` pagina voor volledige artikelweergave.
-    - [ ] **Test:** Verifieer met Pest dat alle frontend pagina's de data uit de database correct tonen.
+    - [x] **Test:** Verifieer met Pest dat alle frontend pagina's de data uit de database correct tonen en dat Livewire-filters/search foutloos werken.
 - [x] **2.3 Mobile-First Optimalisatie**
     - [x] Maak de `Home` en `Detail` pagina's "App-like" op mobiel.
     - [x] Implementeer een sticky mobiele navigatie / CTA.
@@ -51,9 +51,9 @@ Nu de basis werkt, introduceren we de "SaaS" laag volgens de `rules.md`.
     - [x] Implementeer de `TenantScope` (Global Scope) op alle content modellen.
     - [x] Maak de `EnsureTenantContext` middleware voor URL-gebaseerde detectie (bv. via slugs).
     - [x] **Test:** **CRUCIAL:** Schrijf Pest tests die bewijzen dat Organisatie A de artikelen van Organisatie B NOOIT kan zien.
-- [/] **3.3 Dashboard Refactoring**
-    - [/] Update de dashboard routes naar `/dashboard` (tenant-aware).
-    - [/] Voeg de `/dashboard/master` routes toe voor platform-beheer.
+- [x] **3.3 Dashboard Refactoring**
+    - [x] Update de dashboard routes naar `/dashboard` (tenant-aware).
+    - [x] Voeg de `/dashboard/master` routes toe voor platform-beheer.
 
 ---
 

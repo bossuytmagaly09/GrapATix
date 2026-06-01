@@ -17,7 +17,14 @@ class Organizations extends Component
     {
         // Haal alle organisaties op inclusief soft-deleted items om ze te kunnen restoren
         $organizations = Organization::withTrashed()
-            ->withCount(['events', 'users'])
+            ->withCount([
+                'events' => function ($query) {
+                    $query->withoutGlobalScopes();
+                },
+                'users' => function ($query) {
+                    $query->withoutGlobalScopes();
+                }
+            ])
             ->orderBy('created_at', 'desc')
             ->get();
 

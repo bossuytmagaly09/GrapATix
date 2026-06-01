@@ -21,7 +21,18 @@ class Orders extends Component
     public function render()
     {
         $orders = Order::withoutGlobalScopes()
-            ->with(['event', 'organization', 'user', 'tickets'])
+            ->with([
+                'event' => function ($query) {
+                    $query->withoutGlobalScopes();
+                },
+                'organization',
+                'user' => function ($query) {
+                    $query->withoutGlobalScopes();
+                },
+                'tickets' => function ($query) {
+                    $query->withoutGlobalScopes();
+                }
+            ])
             ->when($this->search, function ($query) {
                 $query->where('id', 'like', '%' . $this->search . '%')
                     ->orWhereHas('user', function ($q) {
