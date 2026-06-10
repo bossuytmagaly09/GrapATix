@@ -152,12 +152,12 @@
             color: #00ED64;
         }
 
-        .flux-underline-custom input,
-        .auth-container input,
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
-        input:-webkit-autofill:active {
+        .flux-underline-custom input:not([type="checkbox"]),
+        .auth-container input:not([type="checkbox"]),
+        input:-webkit-autofill:not([type="checkbox"]),
+        input:-webkit-autofill:hover:not([type="checkbox"]), 
+        input:-webkit-autofill:focus:not([type="checkbox"]), 
+        input:-webkit-autofill:active:not([type="checkbox"]) {
             display: block !important;
             background-color: transparent !important;
             background: transparent !important;
@@ -177,7 +177,7 @@
             caret-color: #00ED64 !important;
         }
 
-        .flux-underline-custom input:focus {
+        .flux-underline-custom input:not([type="checkbox"]):focus {
             border-bottom-color: #00ED64 !important;
             background: linear-gradient(to top, rgba(0, 237, 100, 0.05), transparent) !important;
         }
@@ -222,6 +222,20 @@
                     <flux:input name="email" :label="__('E-mail')" type="email" required class="flux-underline-custom" />
                     <flux:input name="password" :label="__('Wachtwoord')" type="password" required class="flux-underline-custom" />
                     <flux:input name="password_confirmation" :label="__('Bevestig')" type="password" required class="flux-underline-custom" />
+                    
+                    <!-- Tenant Registration Toggle -->
+                    <div x-data="{ isTenant: false }" class="space-y-4 pt-2">
+                        <div class="flex items-center gap-2 bg-white/5 p-3 rounded-xl border border-white/10">
+                            <input type="checkbox" id="register_as_organization" name="register_as_organization" value="1" x-model="isTenant" class="rounded text-[#00ED64] focus:ring-[#00ED64] bg-transparent border-white/20">
+                            <label for="register_as_organization" class="text-xs font-bold text-white uppercase tracking-wider cursor-pointer select-none">Registreer als Organisatie</label>
+                        </div>
+
+                        <div x-show="isTenant" x-transition class="space-y-4 border-l-2 border-[#00ED64] pl-4">
+                            <flux:input name="organization_name" :label="__('Organisatie Naam')" type="text" ::required="isTenant" class="flux-underline-custom" />
+                            <flux:input name="subdomain" :label="__('Gewenst Subdomein')" type="text" ::required="isTenant" class="flux-underline-custom" placeholder="bijv. tomorrowland" />
+                        </div>
+                    </div>
+
                     <flux:button type="submit" variant="primary" class="w-full bg-[#00ED64] text-[#001E2B] font-black py-4 rounded-full mt-4">
                         REGISTREREN
                     </flux:button>

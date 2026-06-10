@@ -14,6 +14,9 @@ Route::get('/', Home::class)->name('home');
 Route::get('/events/{event:slug}', EventsShow::class)->name('events.show');
 Route::get('/categories/{category:slug}', CategoriesShow::class)->name('categories.show');
 Route::get('/checkout/success', \App\Livewire\Checkout\Success::class)->name('checkout.success');
+Route::get('/contact', \App\Livewire\Contact::class)->name('contact');
+Route::view('/about', 'pages.about')->name('about');
+Route::view('/privacy', 'pages.privacy')->name('privacy');
 
 Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
@@ -174,6 +177,7 @@ Route::prefix('dashboard')
     });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/my-tickets', \App\Livewire\MyTickets::class)->name('my-tickets');
     Route::livewire('invitations/{invitation}/accept', 'pages::teams.accept-invitation')->name('invitations.accept');
 });
 

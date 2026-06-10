@@ -8,22 +8,21 @@
     <!-- Scripts & Styles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/frontend.css', 'resources/js/frontend.js'])
+    @fluxAppearance
 </head>
-<body class="bg-[#FFFFFF] text-[#001E2B] selection:bg-[#00ED64]/30">
-    <!-- Promo Banner -->
-    <div class="bg-[#001E2B] text-white text-center py-2.5 px-6 text-[10px] md:text-[11px] font-bold tracking-[0.5px] md:tracking-[1px] uppercase border-b border-white/5">
-        Early Bird tickets voor MongoDB World 2026 nu beschikbaar →
-    </div>
+<body class="bg-[#001E2B] text-white selection:bg-[#00ED64]/30 min-h-screen flex flex-col">
 
     <!-- Nav Component -->
     <x-nav />
 
     <!-- Main Content -->
-    <main>
+    <main class="flex-grow">
         {{ $slot }}
     </main>
 
     <!-- Footer Component -->
     <x-footer />
+    
+    @fluxScripts
 </body>
 </html>

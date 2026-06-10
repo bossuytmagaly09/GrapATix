@@ -41,6 +41,7 @@ class Event extends Model implements HasMedia
         'background_image',
         'is_published',
         'published_at',
+        'schedule',
     ];
 
     protected $casts = [
@@ -49,6 +50,7 @@ class Event extends Model implements HasMedia
         'is_published' => 'boolean',
         'use_venue_capacity' => 'boolean',
         'published_at' => 'datetime',
+        'schedule' => 'array',
     ];
 
     public function category(): BelongsTo

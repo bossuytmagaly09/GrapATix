@@ -12,6 +12,25 @@ class Index extends Component
     public $name = '';
     public $slug = '';
     public $editingCategoryId = null;
+    public $usesCategories = false;
+
+    public function mount()
+    {
+        $organization = auth()->user()->organization;
+        if ($organization) {
+            $this->usesCategories = $organization->uses_categories;
+        }
+    }
+
+    public function enableCategories()
+    {
+        $organization = auth()->user()->organization;
+        if ($organization) {
+            $organization->update(['uses_categories' => true]);
+            $this->usesCategories = true;
+            \Flux::toast('Categorieën geactiveerd voor je organisatie!', 'success');
+        }
+    }
 
     protected $rules = [
         'name' => 'required|min:2',

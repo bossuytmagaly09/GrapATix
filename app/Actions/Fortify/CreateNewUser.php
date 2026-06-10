@@ -26,16 +26,27 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+        $registerAsOrganization = !empty($input['register_as_organization']);
+
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
+            'organization_name' => $registerAsOrganization ? ['required', 'string', 'max:255'] : ['nullable'],
+            'subdomain' => $registerAsOrganization ? ['required', 'string', 'alpha_dash', 'max:50', 'unique:organizations,subdomain'] : ['nullable'],
         ])->validate();
 
-        return DB::transaction(function () use ($input) {
-            $organization = \App\Models\Organization::first() ?? \App\Models\Organization::create([
-                'name' => 'Default Organization',
-                'subdomain' => 'default',
-            ]);
+        return DB::transaction(function () use ($input, $registerAsOrganization) {
+            if ($registerAsOrganization) {
+                $organization = \App\Models\Organization::create([
+                    'name' => $input['organization_name'],
+                    'subdomain' => strtolower($input['subdomain']),
+                ]);
+            } else {
+                $organization = \App\Models\Organization::first() ?? \App\Models\Organization::create([
+                    'name' => 'Default Organization',
+                    'subdomain' => 'default',
+                ]);
+            }
 
             $user = User::create([
                 'organization_id' => $organization->id,

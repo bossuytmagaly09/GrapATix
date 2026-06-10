@@ -24,9 +24,53 @@
 
             <div class="hidden md:flex items-center gap-4">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="text-[14px] font-semibold hover:text-[#00ED64] transition-colors">Dashboard</a>
+                    <!-- User Dropdown (Mannetje Icoon) -->
+                    <div x-data="{ open: false }" @click.outside="open = false" class="relative">
+                        <button @click="open = !open" type="button" class="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-white hover:border-[#00ED64]/30 hover:text-[#00ED64] transition-all hover:scale-105" title="{{ auth()->user()->name }}">
+                            <flux:icon icon="user" class="size-4" />
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="transform opacity-0 scale-95"
+                             x-transition:enter-end="transform opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="transform opacity-100 scale-100"
+                             x-transition:leave-end="transform opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-56 bg-[#081621] border border-white/10 rounded-xl shadow-2xl z-50 text-white py-1.5 overflow-hidden"
+                             style="display: none;">
+                             
+                            <div class="px-5 py-3 border-b border-white/5 bg-[#001E2B]/50">
+                                <div class="font-bold text-white text-sm truncate">{{ auth()->user()->name }}</div>
+                                <div class="text-xs text-white/50 truncate mt-0.5">{{ auth()->user()->email }}</div>
+                            </div>
+                            
+                            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-5 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors">
+                                <flux:icon icon="chart-bar" class="size-4 text-[#00ED64]" />
+                                <span>Dashboard</span>
+                            </a>
+                            
+                            <a href="{{ route('my-tickets') }}" class="flex items-center gap-3 px-5 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors">
+                                <flux:icon icon="ticket" class="size-4 text-[#00ED64]" />
+                                <span>Mijn Tickets</span>
+                            </a>
+                            
+                            <div class="border-t border-white/5 my-1.5"></div>
+                            
+                            <form method="POST" action="{{ route('logout') }}" class="w-full">
+                                @csrf
+                                <button type="submit" class="flex w-full items-center gap-3 px-5 py-3 text-sm text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors text-left cursor-pointer">
+                                    <flux:icon icon="arrow-right-start-on-rectangle" class="size-4" />
+                                    <span>Uitloggen</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 @else
-                    <a href="{{ route('login') }}" class="text-[14px] font-semibold hover:text-[#00ED64] transition-colors">Inloggen</a>
+                    <a href="{{ route('login') }}" class="px-5 py-2.5 bg-[#00ED64] text-[#001E2B] rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-105 hover:shadow-lg hover:shadow-[#00ED64]/20">
+                        Inloggen
+                    </a>
                 @endauth
             </div>
 
@@ -67,6 +111,19 @@
         <div class="pt-6 border-t border-white/10 flex flex-col gap-4">
             @auth
                 <a href="{{ route('dashboard') }}" class="w-full bg-white text-[#001E2B] text-center py-3.5 rounded-2xl font-black uppercase tracking-wider text-[13px]">Dashboard</a>
+                
+                <a href="{{ route('my-tickets') }}" class="w-full bg-white/5 border border-white/10 text-white text-center py-3.5 rounded-2xl font-black uppercase tracking-wider text-[13px] hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                    <flux:icon icon="ticket" class="size-4 text-[#00ED64]" />
+                    <span>Mijn Tickets</span>
+                </a>
+                
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit" class="w-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-center py-3.5 rounded-2xl font-black uppercase tracking-wider text-[13px] hover:bg-rose-500/20 transition-all flex items-center justify-center gap-2">
+                        <flux:icon icon="arrow-right-start-on-rectangle" class="size-4" />
+                        {{ __('Log out') }}
+                    </button>
+                </form>
             @else
                 <a href="{{ route('login') }}" class="w-full bg-[#00ED64] text-[#001E2B] text-center py-3.5 rounded-2xl font-black uppercase tracking-wider text-[13px]">Inloggen</a>
             @endauth

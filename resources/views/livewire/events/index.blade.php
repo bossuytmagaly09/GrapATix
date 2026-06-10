@@ -108,6 +108,34 @@
                 <flux:separator />
 
                 <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <flux:heading size="sm">Tijdschema / Programma</flux:heading>
+                        <flux:button size="sm" variant="ghost" wire:click="addScheduleItem" icon="plus">Voeg item toe</flux:button>
+                    </div>
+                    
+                    @if(count($schedule) > 0)
+                        <div class="space-y-3">
+                            @foreach($schedule as $index => $item)
+                                <div class="p-4 border border-zinc-200 dark:border-zinc-700 rounded-lg flex items-start gap-4">
+                                    <div class="flex-1 space-y-3">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <flux:input wire:model="schedule.{{ $index }}.time" placeholder="Tijd (bijv. 10:00 - 12:00 of 10:00)" />
+                                            <flux:input wire:model="schedule.{{ $index }}.title" placeholder="Titel (bijv. Deuren Open)" />
+                                        </div>
+                                        <flux:input wire:model="schedule.{{ $index }}.description" placeholder="Korte omschrijving (optioneel)" />
+                                    </div>
+                                    <flux:button variant="danger" size="sm" icon="trash" wire:click="removeScheduleItem({{ $index }})" class="mt-1 flex-shrink-0"></flux:button>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-sm text-zinc-500">Geen programma onderdelen toegevoegd. Klik op "Voeg item toe" om te beginnen.</div>
+                    @endif
+                </div>
+
+                <flux:separator />
+
+                <div class="space-y-4">
                     <flux:heading size="sm">{{ __('SEO (Search Engine Optimization)') }}</flux:heading>
                     <flux:input wire:model="seo_title" :label="__('SEO Title')" placeholder="{{ __('Meta title for Google...') }}" />
                     <flux:textarea wire:model="seo_description" :label="__('SEO Description')" placeholder="{{ __('Meta description for Google...') }}" />

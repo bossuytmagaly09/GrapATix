@@ -1,4 +1,4 @@
-<div class="bg-[#001E2B] min-h-screen text-white font-sans selection:bg-[#00ED64]/30">
+<div class="bg-[#001E2B] text-white font-sans selection:bg-[#00ED64]/30">
     
     @if($featuredEvent)
         <!-- Hero Banner (Ticketmaster Style) -->
@@ -55,7 +55,7 @@
         </header>
     @endif
 
-    <div class="px-6 md:px-12 pb-32 space-y-12 md:space-y-16 overflow-x-hidden pt-8">
+    <div class="px-6 md:px-12 pb-16 space-y-12 md:space-y-16 overflow-x-hidden pt-8">
         
         @if($search)
             <!-- Active Search Query Badge -->
@@ -112,7 +112,7 @@
         </div>
 
         <!-- Dynamic Event Grid Section -->
-        <div class="space-y-8">
+        <div id="events-grid" class="space-y-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
                     <h2 class="text-[28px] md:text-[32px] font-black uppercase tracking-tighter text-[#00ED64]">
@@ -143,7 +143,7 @@
                 </div>
             @else
                 <!-- Events Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     @foreach($events as $event)
                         @php
                             // Determine elegant cover image based on category
@@ -179,7 +179,7 @@
                                 </div>
 
                                 <!-- Info Body -->
-                                <div class="p-6 space-y-4">
+                                <div class="p-5 space-y-3">
                                     <div class="flex items-center gap-2 text-[11px] text-[#98A1A8] font-bold uppercase tracking-wider">
                                         <flux:icon icon="calendar" class="size-3.5 text-[#00ED64]" />
                                         <span>{{ $event->start_date?->timezone('Europe/Brussels')->format('d M Y') }}</span>
@@ -187,18 +187,21 @@
                                         <span>{{ $event->start_date?->timezone('Europe/Brussels')->format('H:i') }}</span>
                                     </div>
 
-                                    <h3 class="text-xl font-bold leading-snug group-hover:text-[#00ED64] transition-colors duration-300">
-                                        {{ $event->title }}
+                                    <h3 class="text-lg font-bold leading-snug group-hover:text-[#00ED64] transition-colors duration-300">
+                                        <a href="{{ route('events.show', $event->slug) }}" class="focus:outline-none">
+                                            <span class="absolute inset-0 z-10" aria-hidden="true"></span>
+                                            {{ $event->title }}
+                                        </a>
                                     </h3>
 
-                                    <p class="text-white/60 text-[13px] font-light leading-relaxed line-clamp-2">
+                                    <p class="text-white/60 text-[12px] font-light leading-relaxed line-clamp-2">
                                         {{ $event->description }}
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Footer section of card -->
-                            <div class="p-6 pt-0 border-t border-white/5 flex items-center justify-between">
+                            <div class="p-5 border-t border-white/5 flex items-center justify-between">
                                 <div class="flex flex-col">
                                     <span class="text-[10px] text-[#98A1A8] font-medium uppercase tracking-wider">Tickets vanaf</span>
                                     <span class="text-lg font-black text-white">
@@ -206,7 +209,7 @@
                                     </span>
                                 </div>
                                 
-                                <a href="{{ route('events.show', $event->slug) }}" class="bg-[#00ED64]/10 hover:bg-[#00ED64] text-[#00ED64] hover:text-[#001E2B] px-5 py-2.5 rounded-2xl font-black text-[12px] uppercase tracking-wider border border-[#00ED64]/20 hover:border-transparent transition-all duration-300">
+                                <a href="{{ route('events.show', $event->slug) }}" class="relative z-20 bg-[#00ED64]/10 hover:bg-[#00ED64] text-[#00ED64] hover:text-[#001E2B] px-5 py-2.5 rounded-2xl font-black text-[12px] uppercase tracking-wider border border-[#00ED64]/20 hover:border-transparent transition-all duration-300">
                                     Tickets
                                 </a>
                             </div>

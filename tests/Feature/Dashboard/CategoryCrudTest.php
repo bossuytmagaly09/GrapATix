@@ -63,3 +63,22 @@ test('categories can be deleted through livewire', function () {
         'id' => $category->id,
     ]);
 });
+
+test('organization categories can be enabled via categories index page', function () {
+    $user = User::factory()->create();
+    $organization = $user->organization;
+    
+    // Set initially to false
+    $organization->update(['uses_categories' => false]);
+
+    Livewire::actingAs($user)
+        ->test(CategoriesIndex::class)
+        ->assertSet('usesCategories', false)
+        ->assertSee('Categorieën staan')
+        ->assertSee('Uit')
+        ->call('enableCategories')
+        ->assertSet('usesCategories', true)
+        ->assertSee('Manage your event categories');
+
+    $this->assertTrue($organization->fresh()->uses_categories);
+});

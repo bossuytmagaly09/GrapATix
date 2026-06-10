@@ -46,6 +46,47 @@ class Success extends Component
                 return;
             }
 
+            // Sync fallback: if Stripe session is paid but order is not marked paid locally, process it immediately.
+            // This is a robust fallback for delays in Stripe webhooks/queue processing in local dev environments.
+            if ($session->payment_status === 'paid' && $this->order->status !== 'paid') {
+                \Illuminate\Support\Facades\DB::transaction(function () use ($session, $quantities) {
+                    $order = Order::withoutGlobalScopes()->where('id', $this->order->id)->lockForUpdate()->first();
+                    
+                    if ($order && $order->status !== 'paid') {
+                        $order->update([
+                            'status' => 'paid',
+                            'payment_id' => $session->payment_intent ?? $session->id,
+                        ]);
+
+                        $qrCodeService = app(\App\Services\QrCodeService::class);
+
+                        foreach ($quantities as $ticketTypeId => $qty) {
+                            for ($i = 0; $i < $qty; $i++) {
+                                $qrData = $qrCodeService->generateForTicket();
+
+                                Ticket::create([
+                                    'organization_id' => $order->organization_id,
+                                    'event_id' => $order->event_id,
+                                    'user_id' => $order->user_id,
+                                    'ticket_type_id' => $ticketTypeId,
+                                    'order_id' => $order->id,
+                                    'qr_code' => $qrData['url'],
+                                    'qr_image_path' => $qrData['path'],
+                                    'status' => 'paid',
+                                ]);
+                            }
+                        }
+
+                        // Dispatch email job
+                        $email = $session->customer_details->email ?? null;
+                        $name = $session->customer_details->name ?? null;
+                        \App\Jobs\SendTicketEmailJob::dispatch($order->id, $email, $name);
+                    }
+                });
+                
+                $this->order->refresh();
+            }
+
             $totalQuantity = 0;
 
             // Initial check if order is already paid

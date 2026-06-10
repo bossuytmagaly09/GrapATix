@@ -7,7 +7,7 @@
     <header class="bg-[#001E2B] text-white py-24 px-8 overflow-hidden relative">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <div class="hero-content">
-                <h1 class="text-[72px] font-medium leading-[1.1] tracking-[-1.5px] mb-6">
+                <h1 class="text-4xl sm:text-5xl md:text-[72px] font-medium leading-[1.1] tracking-[-1.5px] mb-6">
                     Een platform. <br><span class="text-[#00ED64]">Onbeperkte events.</span>
                 </h1>
                 <p class="text-[18px] text-[#98A1A8] mb-8 max-w-md">

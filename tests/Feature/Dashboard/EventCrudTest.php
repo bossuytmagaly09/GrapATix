@@ -40,6 +40,7 @@ test('events can be created with price conversion', function () {
     $this->assertDatabaseHas('events', [
         'title' => 'Graspop 2026',
         'price_cents' => 15050, // Controleert of de euro naar cent conversie klopt
+        'is_published' => true,
     ]);
 });
 

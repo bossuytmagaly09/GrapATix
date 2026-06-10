@@ -1,7 +1,7 @@
 <x-layouts.auth.split :title="__('Log in')">
     <div class="space-y-12">
         <div>
-            <h1 class="text-[72px] font-black text-white leading-none tracking-tighter uppercase">Login</h1>
+            <h1 class="text-5xl md:text-[72px] font-black text-white leading-none tracking-tighter uppercase">Login</h1>
             <p class="text-[#98A1A8] text-lg mt-4">Voer je gegevens in om verder te gaan</p>
         </div>
 

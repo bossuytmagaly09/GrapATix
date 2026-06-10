@@ -23,6 +23,12 @@ class Home extends Component
         $this->selectedCategory = $categorySlug;
     }
 
+    #[On('category-selected')]
+    public function selectCategoryFromEvent($categorySlug)
+    {
+        $this->selectedCategory = $categorySlug;
+    }
+
     public function resetFilters()
     {
         $this->search = '';

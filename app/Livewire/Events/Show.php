@@ -12,10 +12,11 @@ class Show extends Component
     public Event $event;
     public array $quantities = [];
     public $ticketTypes = [];
+    public $relatedEvents = [];
 
     public function mount(Event $event)
     {
-        $this->event = $event->load(['category', 'venue', 'media']);
+        $this->event = $event->load(['category', 'venue', 'media', 'organization']);
         $this->ticketTypes = $this->event->ticketTypes()
             ->where('is_published', true)
             ->withCount('tickets') // So we can calculate available tickets minus sold tickets
@@ -25,6 +26,22 @@ class Show extends Component
         foreach ($this->ticketTypes as $type) {
             $this->quantities[$type->id] = 0;
         }
+
+        // Fetch related events (same category or organization, excluding current)
+        $this->relatedEvents = Event::withoutGlobalScopes()
+            ->with(['category', 'venue', 'organization'])
+            ->where('is_published', true)
+            ->where('id', '!=', $this->event->id)
+            ->where('start_date', '>=', now())
+            ->where(function ($query) {
+                if ($this->event->category_id) {
+                    $query->where('category_id', $this->event->category_id);
+                }
+                $query->orWhere('organization_id', $this->event->organization_id);
+            })
+            ->latest()
+            ->take(3)
+            ->get();
     }
 
     public function incrementQuantity($id)

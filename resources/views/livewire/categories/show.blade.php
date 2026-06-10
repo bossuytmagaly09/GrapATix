@@ -1,4 +1,4 @@
-<div class="bg-[#001E2B] min-h-screen text-white font-sans">
+<div class="bg-[#001E2B] text-white font-sans">
     <!-- Header -->
     <header class="px-6 md:px-12 pt-12 md:pt-24 pb-8 md:pb-16">
         <div class="max-w-4xl">
@@ -12,7 +12,7 @@
     </header>
 
     <!-- Filters & Grid -->
-    <div class="px-6 md:px-12 pb-32">
+    <div class="px-6 md:px-12 pb-16">
         <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 md:mb-12 gap-6 md:gap-8">
             <div class="flex flex-wrap items-center gap-2 md:gap-4">
                 <button 

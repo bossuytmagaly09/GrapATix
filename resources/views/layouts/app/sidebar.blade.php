@@ -17,7 +17,7 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
 
-                    @if(auth()->user()->organization && auth()->user()->organization->uses_categories)
+                    @if(auth()->user()->organization)
                     <flux:sidebar.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate class="hover:text-[#00ED64] hover:bg-[#00ED64]/10 {{ request()->routeIs('categories.index') ? 'text-[#00ED64] bg-[#00ED64]/10' : 'text-white/80' }}">
                         {{ __('Categories') }}
                     </flux:sidebar.item>

@@ -1,4 +1,4 @@
-<div class="bg-[#001E2B] min-h-screen text-white font-sans selection:bg-[#00ED64]/30 py-24 px-6 md:px-12 flex items-center justify-center">
+<div class="bg-[#001E2B] text-white font-sans selection:bg-[#00ED64]/30 py-16 px-6 md:px-12 flex items-center justify-center">
     <div class="max-w-xl w-full bg-[#081621] border border-white/5 rounded-[32px] p-8 md:p-12 shadow-2xl relative overflow-hidden">
         
         <!-- Glowing Ambient light -->

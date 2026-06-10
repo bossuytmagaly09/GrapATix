@@ -24,10 +24,11 @@ class Index extends Component
     public $seo_title = '';
     public $seo_description = '';
     public $editingEventId = null;
+    public $schedule = [];
 
     public function create()
     {
-        $this->reset(['title', 'description', 'category_id', 'start_date', 'end_date', 'price', 'image', 'seo_title', 'seo_description', 'editingEventId']);
+        $this->reset(['title', 'description', 'category_id', 'start_date', 'end_date', 'price', 'image', 'seo_title', 'seo_description', 'editingEventId', 'schedule']);
         Flux::modal('event-modal')->show();
     }
 
@@ -42,6 +43,7 @@ class Index extends Component
         $this->start_date = $event->start_date?->format('Y-m-d\TH:i');
         $this->end_date = $event->end_date?->format('Y-m-d\TH:i');
         $this->price = $event->price_cents / 100;
+        $this->schedule = is_array($event->schedule) ? $event->schedule : [];
         $this->image = null;
         Flux::modal('event-modal')->show();
     }
@@ -79,6 +81,9 @@ class Index extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'price_cents' => (int) ($this->price * 100),
+            'schedule' => array_values($this->schedule), // array_values om keys te resetten na verwijderen
+            'is_published' => true,
+            'published_at' => now(),
         ];
 
         if ($this->editingEventId) {
@@ -101,8 +106,23 @@ class Index extends Component
             Flux::toast(__('Event created successfully.'));
         }
 
-        $this->reset(['title', 'description', 'category_id', 'start_date', 'end_date', 'price', 'image', 'seo_title', 'seo_description', 'editingEventId']);
+        $this->reset(['title', 'description', 'category_id', 'start_date', 'end_date', 'price', 'image', 'seo_title', 'seo_description', 'editingEventId', 'schedule']);
         Flux::modal('event-modal')->close();
+    }
+
+    public function addScheduleItem()
+    {
+        $this->schedule[] = [
+            'time' => '',
+            'title' => '',
+            'description' => ''
+        ];
+    }
+
+    public function removeScheduleItem($index)
+    {
+        unset($this->schedule[$index]);
+        $this->schedule = array_values($this->schedule);
     }
 
     public function delete(Event $event)
