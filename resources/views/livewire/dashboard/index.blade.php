@@ -11,12 +11,7 @@
             </h1>
             <p class="text-white/60 text-sm mt-1">Welkom terug, {{ auth()->user()->name }}! Hier zijn de live-statistieken van {{ $this->organization->name }}.</p>
         </div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('events.index') }}" class="px-6 py-3 bg-[#00ED64] text-[#001E2B] rounded-xl text-sm font-bold uppercase tracking-wider transition-all shadow-md shadow-[#00ED64]/20 hover:scale-105 flex items-center gap-2">
-                <flux:icon icon="plus" class="size-5" />
-                Nieuw Evenement
-            </a>
-        </div>
+
     </div>
 
     <!-- Stats Grid -->

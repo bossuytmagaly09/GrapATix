@@ -48,8 +48,9 @@ class Index extends Component
         Flux::modal('category-modal')->show();
     }
 
-    public function edit(Category $category)
+    public function edit($id)
     {
+        $category = Category::findOrFail($id);
         $this->editingCategoryId = $category->id;
         $this->name = $category->name;
         $this->slug = $category->slug;
@@ -59,8 +60,19 @@ class Index extends Component
     public function save()
     {
         $this->validate([
-            'name' => 'required|min:2|unique:categories,name,' . ($this->editingCategoryId ?? 'NULL'),
-            'slug' => 'required|unique:categories,slug,' . ($this->editingCategoryId ?? 'NULL'),
+            'name' => [
+                'required',
+                'min:2',
+                \Illuminate\Validation\Rule::unique('categories', 'name')
+                    ->where('organization_id', auth()->user()->organization_id)
+                    ->ignore($this->editingCategoryId),
+            ],
+            'slug' => [
+                'required',
+                \Illuminate\Validation\Rule::unique('categories', 'slug')
+                    ->where('organization_id', auth()->user()->organization_id)
+                    ->ignore($this->editingCategoryId),
+            ],
         ]);
 
         if ($this->editingCategoryId) {
@@ -82,16 +94,24 @@ class Index extends Component
         Flux::modal('category-modal')->close();
     }
 
-    public function delete(Category $category)
+    public function delete($id)
     {
+        $category = Category::findOrFail($id);
         $category->delete();
         Flux::toast(__('Category deleted successfully.'));
+    }
+
+    public function restore($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        $category->restore();
+        Flux::toast(__('Category restored successfully.'));
     }
 
     public function render()
     {
         return view('livewire.categories.index', [
-            'categories' => Category::orderBy('name')->get(),
+            'categories' => Category::withTrashed()->orderBy('name')->get(),
         ])->layout('layouts.app', ['title' => __('Categories')]);
     }
 }

@@ -23,22 +23,34 @@ class TenantScope implements Scope
             $path = '/' . ltrim(request()->getPathInfo(), '/');
             if ($path === '/dashboard' || str_starts_with($path, '/dashboard/') || $path === '/api/dashboard' || str_starts_with($path, '/api/dashboard/')) {
                 $isDashboard = true;
-            } elseif ($path === '/livewire/update') {
+            } elseif ($path === '/livewire/update' || str_starts_with($path, '/livewire')) {
                 $referer = request()->headers->get('referer');
                 if ($referer) {
                     $refererPath = '/' . ltrim(parse_url($referer, PHP_URL_PATH) ?? '', '/');
-                    if ($refererPath === '/dashboard' || str_starts_with($refererPath, '/dashboard/') || $refererPath === '/api/dashboard' || str_starts_with($refererPath, '/api/dashboard/')) {
+                    // Gebruik str_contains in plaats van str_starts_with om WAMP subfolders (zoals /GrapATix/public/dashboard) te ondersteunen!
+                    if (str_contains($refererPath, '/dashboard')) {
                         $isDashboard = true;
                     }
                 }
             }
         }
 
-        if ($isDashboard && Session::has('active_organization_id')) {
-            $builder->where(function ($query) use ($model) {
-                $query->where($model->getTable() . '.organization_id', Session::get('active_organization_id'))
-                      ->orWhereNull($model->getTable() . '.organization_id');
-            });
+        if ($isDashboard) {
+            $orgId = Session::get('active_organization_id');
+            
+            // Fallback for implicit route model binding which runs before EnsureTenantContext sets the session
+            if (!$orgId && !($model instanceof \App\Models\User)) {
+                if (auth()->check()) {
+                    $orgId = auth()->user()->organization_id;
+                }
+            }
+
+            if ($orgId) {
+                $builder->where(function ($query) use ($model, $orgId) {
+                    $query->where($model->getTable() . '.organization_id', $orgId)
+                          ->orWhereNull($model->getTable() . '.organization_id');
+                });
+            }
         }
     }
 }

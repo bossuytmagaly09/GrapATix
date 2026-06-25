@@ -1,102 +1,104 @@
-<div class="h-full flex flex-col justify-between bg-slate-950 pb-safe">
-    <!-- Top Nav / Header -->
-    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/60 px-4 py-3 flex items-center justify-between z-10 shrink-0">
-        <div class="flex items-center gap-3">
-            <a href="{{ route('events.index') }}" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition-colors">
-                <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
-                </svg>
-            </a>
-            <div>
-                <h1 class="text-sm font-bold truncate max-w-[180px]">{{ $event->title }}</h1>
-                <p class="text-[10px] text-slate-400 truncate max-w-[180px]">{{ $event->venue->name ?? 'Locatie onbekend' }}</p>
-            </div>
+<div>
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <flux:heading size="xl">Scanner: {{ $event->title }}</flux:heading>
+            <flux:subheading>{{ $event->venue->name ?? 'Locatie onbekend' }}</flux:subheading>
         </div>
-        
-        <!-- Live Stats Badge -->
-        <div class="bg-[#00ED64]/10 border border-[#00ED64]/20 rounded-full px-3 py-1 flex items-center gap-1.5 shadow-sm shadow-[#00ED64]/5">
-            <span class="w-2 h-2 rounded-full bg-[#00ED64] animate-pulse"></span>
-            <span class="text-xs font-mono font-bold text-[#00ED64]">
-                <span id="stat-scanned">{{ $scannedTicketsCount }}</span>/<span id="stat-total">{{ $totalTicketsCount }}</span>
-            </span>
-        </div>
-    </header>
-
-    <!-- Main Scanner Area -->
-    <main class="flex-1 flex flex-col items-center justify-center p-4 relative z-0">
-        <!-- Viewport Container -->
-        <div class="w-full max-w-[320px] aspect-square rounded-3xl bg-slate-900 border border-slate-800/80 overflow-hidden relative shadow-2xl flex flex-col items-center justify-center">
-            
-            <!-- Scanning lines / animation (hidden when camera active) -->
-            <div id="scanner-laser" class="absolute left-0 w-full h-[2px] bg-[#00ED64] shadow-md shadow-[#00ED64]/50 z-10 animate-scan hidden"></div>
-
-            <!-- Library Mount Point (Ignore Livewire changes) -->
-            <div wire:ignore class="w-full h-full" id="reader-container">
-                <div id="reader" class="w-full h-full border-none"></div>
-            </div>
-
-            <!-- Placeholder Screen -->
-            <div id="scanner-placeholder" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-slate-900">
-                <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 text-slate-400">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
+        <div class="flex items-center gap-4">
+            <div class="flex flex-col items-end">
+                <span class="text-xs text-zinc-500 dark:text-zinc-400 font-medium uppercase tracking-wider">Tickets Gescand</span>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xl font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                        <span id="stat-scanned">{{ $scannedTicketsCount }}</span>/<span id="stat-total">{{ $totalTicketsCount }}</span>
+                    </span>
                 </div>
-                <h3 class="text-sm font-bold mb-1">Camera Standby</h3>
-                <p class="text-xs text-slate-400 max-w-[200px]">Activeer de camera om QR tickets te scannen aan de inkom.</p>
             </div>
+            <flux:button href="{{ route('events.index') }}" variant="subtle" icon="arrow-left">Terug</flux:button>
         </div>
+    </div>
 
-        <!-- Camera Controls -->
-        <div class="mt-6 flex items-center gap-4">
-            <button id="btn-toggle-camera" class="px-6 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-xs font-bold transition-all flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-red-500" id="camera-status-dot"></span>
-                <span id="camera-status-text">Start Scanner</span>
-            </button>
-            <button id="btn-toggle-torch" class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 active:scale-95 hover:bg-slate-700 transition-all hidden">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-            </button>
-        </div>
-    </main>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Scanner Module -->
+        <div class="lg:col-span-2">
+            <flux:card class="flex flex-col items-center justify-center p-6 relative">
+                
+                <!-- Viewport Container -->
+                <div class="w-full max-w-[400px] aspect-square rounded-2xl bg-zinc-900 overflow-hidden relative shadow-inner flex flex-col items-center justify-center">
+                    
+                    <!-- Scanning lines / animation (hidden when camera active) -->
+                    <div id="scanner-laser" class="absolute left-0 w-full h-[2px] bg-emerald-500 shadow-md shadow-emerald-500/50 z-10 animate-scan hidden"></div>
 
-    <!-- Scan History / List (Bottom sheet style) -->
-    <footer class="bg-slate-900/65 backdrop-blur-md border-t border-slate-800/60 p-4 max-h-[220px] overflow-y-auto shrink-0 z-10">
-        <h3 class="text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-3">Laatste Scans</h3>
-        <div class="space-y-2" id="history-container">
-            @forelse($history as $item)
-                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/40 border border-slate-800/50 text-xs transition-all duration-300">
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-[#00ED64]"></div>
-                        <div>
-                            <p class="font-bold text-white">{{ $item['customer_name'] }}</p>
-                            <p class="text-[10px] text-slate-400">{{ $item['ticket_type'] }} • {{ $item['code'] }}</p>
-                        </div>
+                    <!-- Library Mount Point (Ignore Livewire changes) -->
+                    <div wire:ignore class="w-full h-full" id="reader-container">
+                        <div id="reader" class="w-full h-full border-none"></div>
                     </div>
-                    <span class="text-[10px] font-mono text-slate-400 font-bold bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/50">{{ $item['scanned_at'] }}</span>
+
+                    <!-- Placeholder Screen -->
+                    <div id="scanner-placeholder" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-zinc-100 dark:bg-zinc-800">
+                        <flux:icon.camera class="w-12 h-12 text-zinc-400 mb-4" />
+                        <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-1">Camera Standby</h3>
+                        <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-[250px]">Activeer de camera om QR tickets te scannen aan de inkom.</p>
+                    </div>
                 </div>
-            @empty
-                <div class="text-center py-4 text-xs text-slate-500" id="history-empty">
-                    Er zijn nog geen scans uitgevoerd tijdens deze sessie.
+
+                <!-- Camera Controls -->
+                <div class="mt-6 flex items-center gap-4">
+                    <flux:button id="btn-toggle-camera" variant="primary" class="w-48 flex justify-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500" id="camera-status-dot"></span>
+                        <span id="camera-status-text">Start Scanner</span>
+                    </flux:button>
+                    
+                    <button id="btn-toggle-torch" class="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-500 dark:text-zinc-400 active:scale-95 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all hidden">
+                        <flux:icon.bolt class="w-5 h-5" />
+                    </button>
                 </div>
-            @endforelse
+            </flux:card>
         </div>
-    </footer>
+
+        <!-- Scan History Sidebar -->
+        <div class="lg:col-span-1">
+            <flux:card>
+                <div class="flex items-center gap-2 mb-4">
+                    <flux:icon.clock class="w-5 h-5 text-zinc-400" />
+                    <h3 class="font-bold text-zinc-900 dark:text-white">Laatste Scans</h3>
+                </div>
+                
+                <div class="space-y-3" id="history-container">
+                    @forelse($history as $item)
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700/50 text-sm transition-all duration-300">
+                            <div class="flex items-start gap-3">
+                                <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500 shrink-0"></div>
+                                <div>
+                                    <p class="font-bold text-zinc-900 dark:text-white leading-tight">{{ $item['customer_name'] }}</p>
+                                    <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{{ $item['ticket_type'] }} • {{ $item['code'] }}</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-2 py-1 rounded shadow-sm border border-zinc-100 dark:border-zinc-800">{{ $item['scanned_at'] }}</span>
+                        </div>
+                    @empty
+                        <div class="text-center py-8 text-sm text-zinc-500 dark:text-zinc-400" id="history-empty">
+                            <flux:icon.inbox class="w-8 h-8 mx-auto mb-2 text-zinc-300 dark:text-zinc-600" />
+                            Er zijn nog geen scans uitgevoerd.
+                        </div>
+                    @endforelse
+                </div>
+            </flux:card>
+        </div>
+    </div>
 
     <!-- Immersion Full-Screen Feedback Overlay -->
-    <div id="feedback-overlay" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center opacity-0 pointer-events-none transition-all duration-300 transform scale-110">
+    <div id="feedback-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center opacity-0 pointer-events-none transition-all duration-300 transform scale-110 hidden">
         <!-- Result Icon Container -->
-        <div id="feedback-icon-container" class="w-24 h-24 rounded-full flex items-center justify-center text-white mb-6 shadow-2xl transform scale-75 transition-transform duration-500">
+        <div id="feedback-icon-container" class="w-32 h-32 rounded-full flex items-center justify-center text-white mb-8 shadow-2xl transform scale-75 transition-transform duration-500">
             <!-- Icon will be injected here by JS -->
         </div>
         <!-- Result Text -->
-        <h2 id="feedback-title" class="text-4xl font-black uppercase tracking-tight mb-2"></h2>
-        <p id="feedback-message" class="text-lg font-medium opacity-90 max-w-sm px-4 mb-4"></p>
+        <h2 id="feedback-title" class="text-5xl font-black uppercase tracking-tight mb-4"></h2>
+        <p id="feedback-message" class="text-xl font-medium opacity-90 max-w-lg px-4 mb-6"></p>
         
         <!-- Ticket Type badge inside overlay -->
-        <div id="feedback-badge" class="bg-black/20 text-white rounded-full px-4 py-1.5 text-sm font-bold border border-white/10 hidden"></div>
+        <div id="feedback-badge" class="bg-black/20 text-white rounded-full px-6 py-2 text-lg font-bold border border-white/20 hidden backdrop-blur-sm"></div>
     </div>
 
     <!-- Scanner Logic Scripts -->
@@ -381,16 +383,16 @@
 
                 // Create new history div
                 const div = document.createElement('div');
-                div.className = 'flex items-center justify-between p-2 rounded-xl bg-slate-800/40 border border-slate-800/50 text-xs transition-all duration-300 opacity-0 transform translate-y-2';
+                div.className = 'flex items-center justify-between p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700/50 text-sm transition-all duration-300 opacity-0 transform translate-y-2';
                 div.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-[#00ED64]"></div>
+                    <div class="flex items-start gap-3">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500 shrink-0"></div>
                         <div>
-                            <p class="font-bold text-white">${name}</p>
-                            <p class="text-[10px] text-slate-400">${type} • ${ticketCode}</p>
+                            <p class="font-bold text-zinc-900 dark:text-white leading-tight">${name}</p>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">${type} • ${ticketCode}</p>
                         </div>
                     </div>
-                    <span class="text-[10px] font-mono text-slate-400 font-bold bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/50">${timeStr}</span>
+                    <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-900 px-2 py-1 rounded shadow-sm border border-zinc-100 dark:border-zinc-800">${timeStr}</span>
                 `;
 
                 // Prepend to history container

@@ -46,10 +46,12 @@
                                 <div class="text-xs text-white/50 truncate mt-0.5">{{ auth()->user()->email }}</div>
                             </div>
                             
+                            @if(auth()->user()->organization_id || auth()->user()->can('access-master-dashboard'))
                             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-5 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors">
                                 <flux:icon icon="chart-bar" class="size-4 text-[#00ED64]" />
                                 <span>Dashboard</span>
                             </a>
+                            @endif
                             
                             <a href="{{ route('my-tickets') }}" class="flex items-center gap-3 px-5 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors">
                                 <flux:icon icon="ticket" class="size-4 text-[#00ED64]" />
@@ -110,7 +112,9 @@
         </div>
         <div class="pt-6 border-t border-white/10 flex flex-col gap-4">
             @auth
+                @if(auth()->user()->organization_id || auth()->user()->can('access-master-dashboard'))
                 <a href="{{ route('dashboard') }}" class="w-full bg-white text-[#001E2B] text-center py-3.5 rounded-2xl font-black uppercase tracking-wider text-[13px]">Dashboard</a>
+                @endif
                 
                 <a href="{{ route('my-tickets') }}" class="w-full bg-white/5 border border-white/10 text-white text-center py-3.5 rounded-2xl font-black uppercase tracking-wider text-[13px] hover:bg-white/10 transition-all flex items-center justify-center gap-2">
                     <flux:icon icon="ticket" class="size-4 text-[#00ED64]" />

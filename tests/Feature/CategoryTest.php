@@ -37,7 +37,7 @@ test('a category can be deleted', function () {
 
     $category->delete();
 
-    $this->assertDatabaseMissing('categories', [
+    $this->assertSoftDeleted('categories', [
         'id' => $category->id,
     ]);
 });

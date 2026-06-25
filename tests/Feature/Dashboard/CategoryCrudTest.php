@@ -59,7 +59,7 @@ test('categories can be deleted through livewire', function () {
         ->test(CategoriesIndex::class)
         ->call('delete', $category->id);
 
-    $this->assertDatabaseMissing('categories', [
+    $this->assertSoftDeleted('categories', [
         'id' => $category->id,
     ]);
 });

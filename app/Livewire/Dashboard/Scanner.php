@@ -92,6 +92,6 @@ class Scanner extends Component
     {
         return view('livewire.dashboard.scanner', [
             'history' => $this->scannedHistory
-        ])->layout('layouts.scanner', ['title' => 'Portiers Scanner | ' . $this->event->title]);
+        ])->layout('layouts.app', ['title' => 'Portiers Scanner | ' . $this->event->title]);
     }
 }

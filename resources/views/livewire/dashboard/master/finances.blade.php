@@ -57,7 +57,6 @@
                         <th class="px-6 py-4 text-right">Bruto Omzet</th>
                         <th class="px-6 py-4 text-right text-[#00ED64]">Platform Fee (Winst)</th>
                         <th class="px-6 py-4 text-right">Netto Uitbetaling</th>
-                        <th class="px-6 py-4 text-center">Acties</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
@@ -79,15 +78,10 @@
                             <td class="px-6 py-4 text-right font-mono font-bold text-white">
                                 €{{ number_format($org->payout_cents / 100, 2, ',', '.') }}
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <button class="px-3 py-1 bg-white/5 hover:bg-white/10 text-white/80 rounded border border-white/10 text-xs transition-colors">
-                                    Uitbetalen
-                                </button>
-                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-white/40">Geen financiële gegevens gevonden.</td>
+                            <td colspan="5" class="px-6 py-10 text-center text-white/40">Geen financiële gegevens gevonden.</td>
                         </tr>
                     @endforelse
                 </tbody>

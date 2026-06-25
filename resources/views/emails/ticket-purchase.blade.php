@@ -33,9 +33,7 @@ Je betaling is succesvol verwerkt. Hieronder vind je de details van je bestellin
 
 > De QR-codes van je tickets zijn als bijlage meegestuurd met deze e-mail. Toon de juiste QR-code aan de inkom om binnen te geraken.
 
-@component('mail::button', ['url' => route('home')])
-Bekijk op GrapATix
-@endcomponent
+
 
 Tot op het evenement! 🙌
 

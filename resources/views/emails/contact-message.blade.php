@@ -10,10 +10,6 @@ Er is een nieuw bericht ontvangen via het contactformulier van GrapATix.
 **Bericht:**  
 {{ $messageText }}  
 
-@component('mail::button', ['url' => 'mailto:' . $email])
-Beantwoord afzender
-@endcomponent
-
 Met vriendelijke groet,<br>
 {{ config('app.name') }}
 @endcomponent
